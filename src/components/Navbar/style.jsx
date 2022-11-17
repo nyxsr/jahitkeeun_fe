@@ -4,15 +4,13 @@ import tw from "tailwind-styled-components/dist/tailwind-styled-components.cjs"
 
 
 export const NavWrapper = tw.nav`
-bg-zinc-50
+${(p)=>(p.app ? 'bg-[#402E32]':'bg-zinc-50')}
 flex
 items-center
 px-5
 lg:px-14
-justify-between
-> img{
-    pt-5
-}
+${(p) => (p.auth ? 'justify-center':'justify-between')}
+pt-5
 `
 
 export const ToggleNav = tw.div`
@@ -25,7 +23,6 @@ text-3xl
 
 export const MenuNav = styled(motion.div)`
 display:flex;
-z-index: 50;
 flex-direction: column;
 background-color: rgb(250,250,250);
 >a{
