@@ -25,5 +25,7 @@ module.exports = {
       reversemakeSlide: 'reversemakeSlide .2s ease-out forwards'
     },
   },
-  plugins: [],
+  plugins: [
+    require('tailwind-scrollbar')
+  ],
 }

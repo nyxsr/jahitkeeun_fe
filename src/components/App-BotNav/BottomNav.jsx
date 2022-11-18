@@ -5,7 +5,7 @@ import { FaListUl, FaUser } from "react-icons/fa";
 
 function BottomNav() {
   return (
-    <div className="fixed w-screen mx-auto md:w-[30.375rem] bottom-0 left-0 right-0">
+    <div className="fixed w-screen mx-auto md:w-[30.375rem] bottom-0 left-0 right-0 z-50">
       <div className="flex justify-evenly py-3 bg-zinc-50">
         <NavLink
         to='../../app/home'
