@@ -10,7 +10,7 @@ items-center
 px-5
 lg:px-14
 ${(p) => (p.auth ? 'justify-center':'justify-between')}
-pt-5
+pt-2
 `
 
 export const ToggleNav = tw.div`

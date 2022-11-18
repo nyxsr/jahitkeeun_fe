@@ -85,7 +85,7 @@ function Navbar() {
     return(
       <NavWrapper auth="true" app='true'>
         <Link onClick={authHome}>
-          <img src={logowhite} alt="logo-jahitkeeun" />
+          <img className="-mb-3" src={logowhite} alt="logo-jahitkeeun" />
         </Link>
       </NavWrapper>
     )
