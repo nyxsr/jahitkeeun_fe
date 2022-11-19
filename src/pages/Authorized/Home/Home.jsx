@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from 'react-router-dom'
 
 import CarouselSection from "../../../components/App-CarouselSection/CarouselSection";
 import { CategorySection } from "../../../components/App-CategorySection/CategorySection";
@@ -11,6 +12,9 @@ import Skeleton from "react-loading-skeleton";
 function Home() {
   const [isLoading, setLoading] = useState(true);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const token = sessionStorage.getItem('token')
+
   async function fetchImages() {
     return new Promise((resolve) => {
       setTimeout(() => {
@@ -32,6 +36,16 @@ function Home() {
       dispatch(ADD_IMAGES(data));
     });
   }, []);
+
+  useEffect(()=>{
+    if (!token) {
+      navigate('../../login',{
+        state:{
+          warning:'Silahkan login dahulu!'
+        }
+      })
+    }  
+  },[])
 
   return (
     <>
@@ -80,3 +94,19 @@ function Home() {
 }
 
 export default Home;
+
+export function TaylorHome() {
+  return(
+    <>
+      <p>Ini Taylor</p>
+    </>
+  )
+}
+
+export function ConvectionHome() {
+  return(
+    <>
+      <p>Ini Konveksi</p>
+    </>
+  )
+}

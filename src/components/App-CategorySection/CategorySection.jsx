@@ -9,40 +9,40 @@ export const CategorySection = () => {
     <div className="mt-3 px-10">
       <p className="text-3xl font-semibold pb-3">Kategori Item</p>
       <OwlCarousel className="owl-theme" dots={false} items={4} margin={15}>
-        <div class="item">
+        <div className="item">
           <img src={blouse} className='rounded-md' alt="" />
         </div>
-        <div class="item">
+        <div className="item">
           <img src={blouse} className='rounded-md' alt="" />
         </div>
-        <div class="item">
+        <div className="item">
           <img src={blouse} className='rounded-md' alt="" />
         </div>
-        <div class="item">
+        <div className="item">
           <img src={blouse} className='rounded-md' alt="" />
         </div>
-        <div class="item">
+        <div className="item">
           <img src={blouse} className='rounded-md' alt="" />
         </div>
-        <div class="item">
+        <div className="item">
           <img src={blouse} className='rounded-md' alt="" />
         </div>
-        <div class="item">
+        <div className="item">
           <img src={blouse} className='rounded-md' alt="" />
         </div>
-        <div class="item">
+        <div className="item">
           <img src={blouse} className='rounded-md' alt="" />
         </div>
-        <div class="item">
+        <div className="item">
           <img src={blouse} className='rounded-md' alt="" />
         </div>
-        <div class="item">
+        <div className="item">
           <img src={blouse} className='rounded-md' alt="" />
         </div>
-        <div class="item">
+        <div className="item">
           <img src={blouse} className='rounded-md' alt="" />
         </div>
-        <div class="item">
+        <div className="item">
           <img src={blouse} className='rounded-md' alt="" />
         </div>
       </OwlCarousel>

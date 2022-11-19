@@ -2,15 +2,21 @@
   "name": "jahitkeeun-app",
   "private": true,
   "version": "0.0.0",
+  "homepage": "https://nyxsr.github.io/jahitkeeun_fe",
   "type": "module",
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.0",
+    "axios": "^1.1.3",
+    "cssnano": "^5.1.14",
     "framer-motion": "^7.6.6",
+    "limit-text-js": "^1.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.6.0",
@@ -21,6 +27,7 @@
     "react-responsive-carousel": "^3.2.23",
     "react-router-dom": "^6.4.3",
     "react-swipe": "^6.0.4",
+    "react-toastify": "^9.1.1",
     "styled-components": "^5.3.6",
     "swipe-js-iso": "^2.1.5",
     "tailwind-scrollbar": "^2.0.1",
@@ -33,6 +40,7 @@
     "@types/react-dom": "^18.0.8",
     "@vitejs/plugin-react": "^2.2.0",
     "autoprefixer": "^10.4.13",
+    "gh-pages": "^4.0.0",
     "postcss": "^8.4.19",
     "tailwindcss": "^3.2.4",
     "vite": "^3.2.3"

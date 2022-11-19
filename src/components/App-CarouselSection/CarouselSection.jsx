@@ -7,9 +7,9 @@ const CarouselSection = () => {
   const { image } = useSelector(state => state.imageSlide)
 
 
-  setInterval(() => {
-    reactSwipeEl.next()
-  }, 3000);
+  // setInterval(() => {
+  //   reactSwipeEl.next()
+  // }, 3000);
   return (
 <div className='px-10 py-5'>
 <ReactSwipe
@@ -19,7 +19,7 @@ const CarouselSection = () => {
       >
         {image.map((v,i)=>{
           return(
-          <img src={v} alt="" className='w-5 rounded-md' />
+          <img key={i} src={v} alt="" className='w-5 rounded-md' />
           )
         })}
       </ReactSwipe>

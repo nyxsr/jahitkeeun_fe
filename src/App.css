@@ -1,0 +1,7 @@
+#root{
+    font-family: 'Mulish', sans-serif;
+}
+body{
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+  }
