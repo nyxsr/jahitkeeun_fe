@@ -1,24 +1,11 @@
 import { motion } from "framer-motion"
 import styled from "styled-components"
-import tw from "tailwind-styled-components/dist/tailwind-styled-components.cjs"
 
 
-export const NavWrapper = tw.nav`
-${(p)=>(p.app ? 'bg-[#402E32]':'bg-zinc-50')}
-flex
-items-center
-px-5
-lg:px-14
-${(p) => (p.auth ? 'justify-center':'justify-between')}
-${(p)=> (!p.app ? 'pt-4': 'pt-2')}
-`
-
-export const ToggleNav = tw.div`
-lg:hidden
-border
-rounded-sm
-text-3xl
--mt-5
+export const NavWrap = styled.nav`
+    background-color: ${props => props.app ? '#402E32': '#FAFAFA'};
+    justify-content: ${props => props.auth ? 'center':'space-between'};
+    padding-top: ${props => props.app ? '1rem':'0.5rem'};
 `
 
 export const MenuNav = styled(motion.div)`

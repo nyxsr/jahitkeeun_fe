@@ -31,7 +31,6 @@
     "styled-components": "^5.3.6",
     "swipe-js-iso": "^2.1.5",
     "tailwind-scrollbar": "^2.0.1",
-    "tailwind-styled-components": "^2.2.0",
     "toastify": "^2.0.1",
     "vite-plugin-env-compatible": "^1.1.1"
   },

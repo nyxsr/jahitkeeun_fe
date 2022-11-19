@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import {useInView} from 'react-intersection-observer'
-import { HeaderWrapper, JoinUsSection } from "./style";
+import { HeaderWrapper } from "./style";
 import { motion, useAnimation } from "framer-motion";
 import HeaderWomanSewing from "../../assets/header-woman-sewing.png";
 import AboutImage from '../../assets/about-image.png'
@@ -127,7 +127,7 @@ function Landing() {
           <HomeCard id={4}/>
         </motion.div>
       </div>
-      <JoinUsSection id='join'>
+      <section className="bg-[#F1C232] relative py-10 md:py-20 scroll-m-28 overflow-x-hidden overflow-y-hidden" id='join'>
          <img src={karakter} alt="" className="absolute h-full right-[18rem] py-10 z-0" />
          <div className="flex flex-col lg:flex-row justify-between px-0 md:px-14">
           <div className="flex flex-col justify-center px-10 lg:px-30 z-10">
@@ -138,7 +138,7 @@ function Landing() {
           </div>
           <motion.img initial={{opacity:0, x:20}} whileInView={{opacity:1, x:0}} transition={{delay:.9, duration:1}} viewport={{once:true}} src={JoinWoman} alt="" className="z-20 absolute md:block w-full md:w-[30rem] md:right-0 -right-32 bottom-0"/>
          </div>
-      </JoinUsSection>
+      </section>
       <div className="my-32 scroll-m-28" id="kontak">
         <div className="flex justify-evenly items-center flex-col md:flex-row border-2 mx-16 py-10 md:py-0 gap-10 md:gap-0">
           <img src={logo} alt="" className="w-52 pt-8" />

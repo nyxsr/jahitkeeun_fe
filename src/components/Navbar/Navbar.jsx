@@ -1,4 +1,4 @@
-import { MenuNav, NavWrapper, ToggleNav } from "./style";
+import { MenuNav, NavWrap } from "./style";
 import logo from "../../assets/logo.svg";
 import logowhite from '../../assets/logo-white.svg'
 import { BiMenu, BiLogInCircle } from "react-icons/bi";
@@ -29,18 +29,18 @@ function Navbar() {
   if (isAuthSelected === '1' && !inNavbarApp) {
     return (
       <>
-      <NavWrapper auth="true">
+      <NavWrap className="flex items-center px-5 lg:px-14" auth>
         <Link onClick={authHome}>
           <img src={logo} alt="logo-jahitkeeun" />
         </Link>
-      </NavWrapper>
+      </NavWrap>
       </>
     );
   } else if(isAuthSelected ==='0') {
     return (
       <>
         <div className="fixed lg:static w-screen z-50">
-          <NavWrapper>
+          <NavWrap className="flex items-center px-5 lg:px-14">
             <Link to="/" onClick={authHome}>
               <img src={logo} alt="logo-jahitkeeun" />
             </Link>
@@ -66,14 +66,14 @@ function Navbar() {
                 Register
               </NavLink>
             </div>
-            <ToggleNav>
+            <div className="lg:hidden border rounded-sm text-3xl -mt-5">
               <BiMenu
                 onClick={() =>
                   !toggle ? dispatch(TOGGLED(true)) : dispatch(TOGGLED(false))
                 }
               />
-            </ToggleNav>
-          </NavWrapper>
+            </div>
+          </NavWrap>
           <div className="absolute w-full z-50">
             {toggle && <MenuToggle />}
             <NavTab />
@@ -83,11 +83,11 @@ function Navbar() {
     );
   } else if(isAuthSelected === '1' && inNavbarApp === 'true' ){
     return(
-      <NavWrapper auth="true" app='true'>
+      <NavWrap className="flex items-center px-5 lg:px-14" auth app>
         <Link onClick={authHome}>
           <img className="-mb-3" src={logowhite} alt="logo-jahitkeeun" />
         </Link>
-      </NavWrapper>
+      </NavWrap>
     )
   }
 }
@@ -222,8 +222,8 @@ const NavTab = () => {
 
 export function NavApp() {
   return(
-    <NavWrapper app="true" auth='true'>
+    <NavWrap className="flex items-center px-5 lg:px-14" app auth>
     <input type="text" className="bg-white" />
-  </NavWrapper>
+  </NavWrap>
   )
 }
