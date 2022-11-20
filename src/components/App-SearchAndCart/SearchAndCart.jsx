@@ -1,7 +1,10 @@
 import React from 'react'
 import { BiSearch } from "react-icons/bi";
 import { BsFillCartFill } from "react-icons/bs";
+import { useDispatch } from 'react-redux';
+import { ADD_PARAMS } from '../../slice/searchSlice';
 const SearchAndCart = () => {
+  const dispatch = useDispatch();
   return (
    
         <div className="flex justify-between md:justify-around items-center px-5 gap-1">
@@ -10,6 +13,7 @@ const SearchAndCart = () => {
               type="text"
               className="bg-white w-full md:w-80 py-2 px-2 border-none focus:outline-none focus:border-none focus:border-transparent"
               placeholder="Cari penjahit, item atau jasa"
+              onChange={(e)=>dispatch(ADD_PARAMS(e.target.value))}
               />
             <span className="bg-white hover:cursor-pointer" onClick={()=>alert('Hehe')}>
               <BiSearch className="text-xl" />

@@ -4,21 +4,25 @@ import {MdSort} from 'react-icons/md'
 import PenjahitItem from './PenjahitItem'
 import loading from '../../assets/tumblr_mo4hyqKMah1r1tulfo1_500.gif'
 import Skeleton from 'react-loading-skeleton'
+import { useSelector } from 'react-redux'
 
-function PenjahitList() {
+function PenjahitList(props) {
   const [penjahit, setPenjahit] = useState([])
+  const {paramsSearch} = useSelector(state => state.searchParam)
   const isLoading = useRef(true);
+  
+  const baseUrl = paramsSearch ? `http://apijahitkeeun.tepat.co.id/api/search/${paramsSearch}` : `https://apijahitkeeun.tepat.co.id/api/taylor`
 
   const token = sessionStorage.getItem('token')
   const getPenjahit = async() =>{
     try {
-      const response = await axios.get('https://apijahitkeeun.tepat.co.id/api/taylor',{
+      const response = await axios.get(baseUrl,{
         headers:{
           'Authorization': `Bearer ${token}`,
           'Accept':'application/json'
         }
       })
-      setPenjahit(response.data.data)
+      setPenjahit(paramsSearch ? response.data.data.data : response.data.data)
     } catch (error) {
       console.log(error)
     } finally {
@@ -34,13 +38,13 @@ function PenjahitList() {
     return ()=>{
       ignore=true
     }
-  },[])
+  },[paramsSearch])
 
   console.log(penjahit)
   return (
     <>
-    <div className="flex px-10 mt-5 justify-between">
-        <p className='font-semibold text-2xl'>Penjahit Kami</p>
+    <div className="flex px-10 my-5 items-center justify-between">
+        <p className='font-semibold text-3xl'>Penjahit Kami</p>
         <p className='flex'>Sort By <MdSort/></p>
     </div>
     <div className="mt-3 flex flex-col gap-5 pb-3">
@@ -52,7 +56,7 @@ function PenjahitList() {
       }
       {penjahit.map((v,idx)=>{
         return(
-          <PenjahitItem key={idx} nama={v.taylorName}/>
+          <PenjahitItem key={idx} id={v?.taylorId} servisid={v?.serviceId}  nama={v?.taylorName} distrik={v?.districtName} foto={v?.taylorPhoto} rating={v?.taylorRating} namaservis={v?.serviceName} price={v?.price} />
         )
       })}
     </div>

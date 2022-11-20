@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import BackgroundProfil from "../../../assets/profile-bg.svg";
 import { FiEdit, FiLogOut } from "react-icons/fi";
 import { VscVersions } from "react-icons/vsc";
@@ -53,8 +53,8 @@ function Profil() {
         />
         <div className="bg-zinc-50 px-10 py-10 w-fit mx-auto relative text-center z-10 shadow-xl rounded-3xl mt-24">
           <img
-            src="https://source.unsplash.com/150x150?person"
-            className="rounded-full absolute -top-16 left-1/4"
+            src={data.client.photo ? data.client.photo : defaultPhoto}
+            className="rounded-full absolute w-1/2 -top-[5.8rem] left-1/4"
             alt=""
           />
           <p className="text-4xl font-bold pt-12">{data.nama}</p>
@@ -81,7 +81,7 @@ function Profil() {
               {data.email ? shortText(data.email,15,'...') : "Belum Ditambahkan"}
             </p>
           </div>
-          <div className="flex items-center gap-3 text-xl font-semibold">
+          <div className="flex items-center gap-3 text-xl font-semibold cursor-pointer" onClick={()=>navigate('../profil/editpw')}>
             <BsKey />
             <p className="flex-1">Ganti Password</p>
             <p>
@@ -161,7 +161,7 @@ export function EditProfil() {
           <button>Edit Foto</button>
         </div>
         <form className="flex flex-col mt-8 gap-4">
-          <div className="flex py-3 text-xl justify-center items-center bg-white rounded-md w-fit mx-auto px-3 gap-5">
+          <div className="flex py-3 text-xl justify-center items-center bg-white rounded-md w-fit mx-auto px-3 gap-5 focus-within:border-[#F1C232] focus-within:border-2">
             <span>
               <FaUser />
             </span>
@@ -172,7 +172,7 @@ export function EditProfil() {
               id="name"
             />
           </div>
-          <div className="flex py-3 text-xl justify-center items-center bg-white rounded-md w-fit mx-auto px-3 gap-5">
+          <div className="flex py-3 text-xl justify-center items-center bg-white rounded-md w-fit mx-auto px-3 gap-5 focus-within:border-[#F1C232] focus-within:border-2">
             <span>
               <FiMail />
             </span>
@@ -183,7 +183,7 @@ export function EditProfil() {
               id="email"
             />
           </div>
-          <div className="flex py-3 text-xl justify-center items-center bg-white rounded-md w-fit mx-auto px-3 gap-5">
+          <div className="flex py-3 text-xl justify-center items-center bg-white rounded-md w-fit mx-auto px-3 gap-5 focus-within:border-[#F1C232] focus-within:border-2">
             <span>
               <BsPhone />
             </span>
@@ -199,4 +199,64 @@ export function EditProfil() {
       </div>
     </div>
   );
+}
+
+export function EditPassword() {
+  const oldpw = JSON.parse(sessionStorage.getItem('data'))
+  const navigate = useNavigate()
+  
+  const [datapw, setDatapw] = useState({
+    old:'',
+    new:'',
+    confirm:''
+  })
+
+  return(
+    <div className="h-screen bg-slate-200">
+    <div className="w-screen md:w-[30.375rem] mx-auto pb-32 bg-[#FFF8EA] overflow-y-scroll relative h-screen">
+    <div className="flex items-center mt-5 ml-5 gap-4">
+          <button className="bg-[#402E32] text-zinc-50 rounded-md py-3 px-3" onClick={()=>navigate('../profil')}>
+            <IoIosArrowBack className="text-3xl" />
+          </button>
+          <p className="text-xl font-semibold">Edit Password</p>
+        </div>
+        <form className="flex flex-col mt-8 gap-4">
+          <div className="flex py-3 text-xl justify-center items-center bg-white rounded-md w-fit mx-auto focus-within:border-[#F1C232] focus-within:border-2 px-3 gap-5">
+            <span>
+              <BsKey />
+            </span>
+            <input
+              type="password"
+              placeholder="Old Password"
+              className="bg-transparent focus:outline-none"
+              onChange={(e)=>setDatapw((datapw)=>({...datapw,old:e.target.value}))}
+            />
+          </div>
+          <div className="flex py-3 text-xl justify-center items-center bg-white rounded-md w-fit mx-auto px-3 gap-5 focus-within:border-[#F1C232] focus-within:border-2">
+            <span>
+              <BsKey />
+            </span>
+            <input
+              type="password"
+              placeholder="New Password"
+              className="bg-transparent focus:outline-none"
+              onChange={(e)=>setDatapw((datapw)=>({...datapw,new:e.target.value}))}
+            />
+          </div>
+          <div className="flex py-3 text-xl justify-center items-center bg-white rounded-md w-fit mx-auto px-3 gap-5 focus-within:border-[#F1C232] focus-within:border-2">
+            <span>
+              <BsKey />
+            </span>
+            <input
+              type="password"
+              placeholder="Confirm Password"
+              className="bg-transparent focus:outline-none"
+              onChange={(e)=>setDatapw((datapw)=>({...datapw,confirm:e.target.value}))}
+            />
+          </div>
+          <button type="submit" className="bg-[#F1C232] w-80 mx-auto py-4 rounded-md font-semibold">Simpan</button>
+        </form>
+      </div>
+      </div>
+  )
 }

@@ -11,6 +11,7 @@ import Skeleton from "react-loading-skeleton";
 
 function Home() {
   const [isLoading, setLoading] = useState(true);
+  const {paramsSearch} = useSelector(state => state.searchParam)
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const token = sessionStorage.getItem('token')
@@ -82,9 +83,15 @@ function Home() {
           {!isLoading && (
             <>
               <SearchAndCart />
-              <CarouselSection />
-              <CategorySection />
-              <PenjahitList />
+              {paramsSearch && <PenjahitList search={paramsSearch}/>}
+              {!paramsSearch && 
+              <>
+               <CarouselSection />
+               <CategorySection />
+               <PenjahitList />
+               </>
+               }
+             
             </>
           )}
         </div>

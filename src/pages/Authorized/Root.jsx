@@ -5,7 +5,7 @@ import 'react-loading-skeleton/dist/skeleton.css'
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import Pesanan from "./Pesanan/Pesanan";
 import BottomNav from "../../components/App-BotNav/BottomNav";
-import Profil, { EditProfil } from "./Profil/Profil";
+import Profil, { EditPassword, EditProfil } from "./Profil/Profil";
 import 'react-toastify/dist/ReactToastify.css';
 
 
@@ -22,6 +22,7 @@ function Root() {
         <Route path="/pesanan" element={<Pesanan />} />
         <Route path="/profil" element={<Profil />} />
         <Route path="/profil/edit" element={<EditProfil />} />
+        <Route path="/profil/editpw" element={<EditPassword />} />
         <Route path="/" element={role === 'taylor' ? <Navigate to='/taylor/home'/> : role === 'client' ? <Navigate to='/taylor/home'/> : role === 'convection' ? <Navigate to='/convection/home'/> : <Navigate to='/appAdmin'/> } />
       </Routes>
     </SkeletonTheme>

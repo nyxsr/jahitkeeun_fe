@@ -7,9 +7,9 @@ import Login from './pages/Login/Login'
 import Register from './pages/Register/Register'
 
 function App() {
-  useEffect(()=>{
-    localStorage.setItem('isAuthSelected',0)
-  },[])
+  // useEffect(()=>{
+  //   localStorage.setItem('isAuthSelected',0)
+  // },[])
 
   // const handleunload = (e) =>{
   //   localStorage.setItem('isAuthSelected',0)
