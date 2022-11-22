@@ -10,19 +10,24 @@ function PenjahitList(props) {
   const [penjahit, setPenjahit] = useState([])
   const {paramsSearch} = useSelector(state => state.searchParam)
   const isLoading = useRef(true);
+  const searchData = {
+    keyword:paramsSearch
+  }
   
-  const baseUrl = paramsSearch ? `http://apijahitkeeun.tepat.co.id/api/search/${paramsSearch}` : `https://apijahitkeeun.tepat.co.id/api/taylor`
+  console.log(searchData);
+
+  const baseUrl = paramsSearch ? `http://apijahitkeeun.tepat.co.id/api/search` : `https://apijahitkeeun.tepat.co.id/api/taylor`
 
   const token = sessionStorage.getItem('token')
   const getPenjahit = async() =>{
     try {
-      const response = await axios.get(baseUrl,{
+      const response = await axios.post(baseUrl, searchData,{
         headers:{
           'Authorization': `Bearer ${token}`,
           'Accept':'application/json'
         }
       })
-      setPenjahit(paramsSearch ? response.data.data.data : response.data.data)
+      setPenjahit(paramsSearch ? response.data.data.data : response.data.data.data)
     } catch (error) {
       console.log(error)
     } finally {
@@ -39,7 +44,6 @@ function PenjahitList(props) {
       ignore=true
     }
   },[paramsSearch])
-
   console.log(penjahit)
   return (
     <>

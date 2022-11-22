@@ -4,20 +4,26 @@ import { FiEdit, FiLogOut } from "react-icons/fi";
 import { VscVersions } from "react-icons/vsc";
 import { MdPhotoCamera } from "react-icons/md";
 import { AiOutlineInfoCircle } from "react-icons/ai";
-import { GrFormNext } from "react-icons/gr";
+import { GrFormNext,GrUpgrade } from "react-icons/gr";
 import { FaTrash, FaUser } from "react-icons/fa";
 import { BsPhone, BsKey } from "react-icons/bs";
 import { FiMail } from "react-icons/fi";
 import { IoIosArrowBack } from "react-icons/io";
-import { toast, Slide } from "react-toastify";
+import { toast, Slide, ToastContainer } from "react-toastify";
 import { StyledContainer } from "./style";
 import { useNavigate } from "react-router-dom";
+import confirmImage from '../../../assets/undraw_update_re_swkp.svg'
 import defaultPhoto from "../../../assets/default-photo.png";
 import { shortText } from "limit-text-js";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { TOGGLED } from "../../../slice/toggleSlice";
 
 function Profil() {
   const navigate = useNavigate();
   const data = JSON.parse(sessionStorage.getItem("data"));
+  const { toggle } = useSelector(state => state.toggle)
+  const dispatch = useDispatch()
   const logoutClicked = () => {
     toast("Anda sedang diarahkan keluar...", {
       position: "top-right",
@@ -45,6 +51,7 @@ function Profil() {
   return (
     <div className="h-screen bg-slate-200">
       <div className="w-screen md:w-[30.375rem] mx-auto pb-32 bg-[#FFF8EA] overflow-y-scroll relative h-screen">
+      {toggle && <ConfirmUpgrade/>}
         <StyledContainer className="absolute" transition={Slide} />
         <img
           src={BackgroundProfil}
@@ -64,6 +71,12 @@ function Profil() {
             </span>
             <button onClick={() => navigate("../profil/edit")}>
               Edit Profil
+            </button>
+          </div>
+          <div className="flex items-center font-bold justify-center gap-2 px-3 py-3 border-[#F1C232] border-2 mt-3 rounded-md">
+            <GrUpgrade className="text-xl"/>
+          <button onClick={() => dispatch(TOGGLED(true))}>
+              Upgade Akun Saya
             </button>
           </div>
         </div>
@@ -131,6 +144,25 @@ function Profil() {
 }
 
 export default Profil;
+
+function ConfirmUpgrade() {
+  const dispatch = useDispatch()
+  return(
+    <div>
+    <div className="bg-black/60 absolute h-[200%] w-full z-50" onClick={()=>dispatch(TOGGLED(false))}>
+    </div>
+    <div className="bg-zinc-50 absolute px-5 py-5 top-1/4 z-[60] flex flex-col justify-center items-center">
+      <p className="text-3xl mb-3">Perhatian!</p>
+      <img src={confirmImage} alt="" className="w-1/2" />
+      <p className="text-center mt-3">Akun anda akan diupgrade menjadi <b>Jahitkeeun Penjahit</b>, apakah anda yakin ?</p>
+      <div className="flex justify-evenly w-full mt-5">
+        <button className="border rounded-md border-[#f1c232] px-4 py-2" onClick={()=>dispatch(TOGGLED(false))}>Lain Kali</button>
+        <button className="bg-[#f1c232] px-4 py-2 rounded-md" onClick={()=>alert('uhuy')}>Ya, Gaskan!</button>
+      </div>
+    </div>
+    </div>
+  );
+}
 
 export function EditProfil() {
   const data = JSON.parse(sessionStorage.getItem("data"));
@@ -202,36 +234,67 @@ export function EditProfil() {
 }
 
 export function EditPassword() {
-  const oldpw = JSON.parse(sessionStorage.getItem('data'))
+  const data = JSON.parse(sessionStorage.getItem('data'))
+  const token = sessionStorage.getItem('token')
   const navigate = useNavigate()
   
   const [datapw, setDatapw] = useState({
-    old:'',
-    new:'',
+    password:'',
     confirm:''
   })
+
+  const changePw = async() =>{
+    if (datapw.password !== datapw.confirm) {
+      toast.error('Password dan Konfirmasi tidak sama!', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
+        return;
+    }
+    const loading = toast.loading('Sedang mengganti...')
+    try {
+      const response = await axios.post(`http://apijahitkeeun.tepat.co.id/api/user/updatepw/${data.client.user_id}`,datapw,{
+        headers:{
+          Authorization:`Bearer ${token}`
+        }
+      })
+      toast.update(loading,{
+        render:'Password berhasil diganti!',
+        type:'success',
+        isLoading:false,
+        autoClose:3000
+      })
+      setTimeout(() => {
+        navigate('../profil')
+      }, 3000);
+    } catch (error) {
+      toast.update(loading,{
+        render:error.response.data.data.password[0],
+        type:'error',
+        isLoading:false,
+        autoClose:3000
+      })
+      
+    }
+  }
 
   return(
     <div className="h-screen bg-slate-200">
     <div className="w-screen md:w-[30.375rem] mx-auto pb-32 bg-[#FFF8EA] overflow-y-scroll relative h-screen">
+      <ToastContainer/>
     <div className="flex items-center mt-5 ml-5 gap-4">
           <button className="bg-[#402E32] text-zinc-50 rounded-md py-3 px-3" onClick={()=>navigate('../profil')}>
             <IoIosArrowBack className="text-3xl" />
           </button>
           <p className="text-xl font-semibold">Edit Password</p>
         </div>
-        <form className="flex flex-col mt-8 gap-4">
-          <div className="flex py-3 text-xl justify-center items-center bg-white rounded-md w-fit mx-auto focus-within:border-[#F1C232] focus-within:border-2 px-3 gap-5">
-            <span>
-              <BsKey />
-            </span>
-            <input
-              type="password"
-              placeholder="Old Password"
-              className="bg-transparent focus:outline-none"
-              onChange={(e)=>setDatapw((datapw)=>({...datapw,old:e.target.value}))}
-            />
-          </div>
+        <form onSubmit={(e)=>e.preventDefault()} className="flex flex-col mt-8 gap-4">
           <div className="flex py-3 text-xl justify-center items-center bg-white rounded-md w-fit mx-auto px-3 gap-5 focus-within:border-[#F1C232] focus-within:border-2">
             <span>
               <BsKey />
@@ -240,7 +303,7 @@ export function EditPassword() {
               type="password"
               placeholder="New Password"
               className="bg-transparent focus:outline-none"
-              onChange={(e)=>setDatapw((datapw)=>({...datapw,new:e.target.value}))}
+              onChange={(e)=>setDatapw((datapw)=>({...datapw,password:e.target.value}))}
             />
           </div>
           <div className="flex py-3 text-xl justify-center items-center bg-white rounded-md w-fit mx-auto px-3 gap-5 focus-within:border-[#F1C232] focus-within:border-2">
@@ -254,7 +317,7 @@ export function EditPassword() {
               onChange={(e)=>setDatapw((datapw)=>({...datapw,confirm:e.target.value}))}
             />
           </div>
-          <button type="submit" className="bg-[#F1C232] w-80 mx-auto py-4 rounded-md font-semibold">Simpan</button>
+          <button type="submit" onClick={changePw} className="bg-[#F1C232] w-80 mx-auto py-4 rounded-md font-semibold">Simpan</button>
         </form>
       </div>
       </div>
