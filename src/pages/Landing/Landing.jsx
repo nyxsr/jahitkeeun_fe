@@ -14,7 +14,7 @@ import Footer from "../../components/Footer/Footer";
 function Landing() {
   const {ref, inView} = useInView();
   const controls = useAnimation();
-
+  const navbar = localStorage.getItem('isAuthSelected')
   useEffect(()=>{
     if (inView) {
       controls.start({
@@ -32,6 +32,12 @@ function Landing() {
       })
     }
   },[inView])
+
+  useEffect(()=>{
+    if (!navbar) {
+      localStorage.setItem('isAuthSelected',0)
+    }
+  },[])
   return (
     <>
       <HeaderWrapper className="md:py-32 pt-20 h-screen md:h-fit lg:px-24 lg:h-[91vh]">
