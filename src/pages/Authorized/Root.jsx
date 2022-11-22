@@ -18,6 +18,7 @@ import axios from "axios";
 import { UserAddress } from "../../components/App-UserLocation/UserLocation";
 import AppCart from "../../components/App-Cart/AppCart";
 import OrderService from "../../components/App-OrderService/OrderService";
+import Checkout from "./Checkout/Checkout";
 
 function Root() {
   const data = JSON.parse(sessionStorage.getItem("data"));
@@ -60,6 +61,7 @@ function Root() {
       <Routes>
         <Route path="/home" element={<Home />} />
         <Route path="/home/cart" element={<AppCart />} />
+        <Route path="/home/checkout" element={<Checkout />} />
         <Route path="/home/address/:id" element={<UserAddress />} />
         <Route path="/home/detail/:id" element={<DetailTaylor />} />
         <Route path="/home/detail/order/:id" element={<OrderService />} />

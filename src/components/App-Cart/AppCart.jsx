@@ -4,12 +4,16 @@ import { useNavigate } from "react-router-dom";
 import { FaTrash } from "react-icons/fa";
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 import axios from "axios";
+import {motion} from 'framer-motion'
 import { NumericFormat } from "react-number-format";
+import { AnimatePresence } from "framer-motion";
+import LoadingCheckout from '../../assets/loading-checkout.gif'
 
 function AppCart() {
   const navigate = useNavigate();
   const data = JSON.parse(sessionStorage.getItem("data"));
   const token = sessionStorage.getItem("token");
+  const [isCheckout, setCheckout] = useState(false);
   const [status, setStatus] = useState();
   const [isLoading, setLoading] = useState(true);
   const [cart, setCart] = useState();
@@ -36,6 +40,13 @@ function AppCart() {
     }
   };
 
+  const checkouted = () =>{
+    setCheckout(true)
+    setTimeout(() => {
+      navigate('../home/checkout')
+    }, 2000);
+  }
+
   useEffect(() => {
     let ignore = false;
     if (!ignore) {
@@ -49,8 +60,15 @@ function AppCart() {
   console.log(status);
 
   return (
+    <AnimatePresence>
     <div className="h-screen bg-slate-200">
-      <div className="w-screen md:w-[30.375rem] mx-auto py-10 pb-32 bg-[#FFF8EA] overflow-y-scroll h-screen">
+      <div className="w-screen md:w-[30.375rem] relative mx-auto py-10 pb-32 bg-[#FFF8EA] overflow-y-scroll h-screen">
+        {isCheckout && (
+        <motion.div initial={{opacity:0}} animate={{opacity:1}} className="bg-white/75 z-50 absolute top-0 flex flex-col justify-center items-center w-full h-full">
+          <img src={LoadingCheckout} className='w-20' alt="" />
+          <p>Pembayaran sedang disiapkan...</p>
+        </motion.div>
+        )}
         <div className="flex items-center mt-5 ml-5 gap-4">
           <button
             className="bg-[#402E32] text-zinc-50 rounded-md py-3 px-3"
@@ -114,7 +132,7 @@ function AppCart() {
                             </div>
                           </div>
                           <div className="flex flex-col text-right mt-3">
-                            <p>x1</p>
+                            <p>x{v.quantity}</p>
                             <p className="text-xl font-bold">
                               Rp.{parseInt(v.price)}
                             </p>
@@ -141,7 +159,7 @@ function AppCart() {
                       <div className="fixed bottom-14 bg-[#F1C232] py-5 px-4 rounded-t-lg md:w-[30.375rem] w-screen">
                         <p className="text-xl">Total :</p>
                         <p className="text-3xl font-bold">Rp.{ribuan}</p>
-                        <button className="text-xl text-center bg-[#402e32] text-white w-full py-3 mt-3 rounded-md">
+                        <button className="text-xl text-center bg-[#402e32] text-white w-full py-3 mt-3 rounded-md" onClick={checkouted}>
                           Lanjut Bayar
                         </button>
                       </div>
@@ -154,6 +172,7 @@ function AppCart() {
         )}
       </div>
     </div>
+    </AnimatePresence>
   );
 }
 

@@ -179,7 +179,7 @@ function OrderService(props) {
   return (
     <AnimatePresence>
     <div className="h-screen bg-slate-200">
-      <div className="w-screen md:w-[30.375rem] mx-auto py-10 pb-32 bg-[#FFF8EA] overflow-y-scroll h-screen">
+      <div className="w-screen md:w-[30.375rem] mx-auto py-10 pb-56 bg-[#FFF8EA] overflow-y-scroll h-screen">
         <ToastContainer className='fixed top-0 w-screen md:w-[30.375rem] mx-auto'/>
         <div className="flex items-center mt-5 ml-5 gap-4">
           <button

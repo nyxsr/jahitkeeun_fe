@@ -14,6 +14,5 @@ export const store = configureStore({
     imageSlide: imageSlideSlice,
     searchParam: searchSlice,
     selectItem: selectItemSlice
-
   },
 })
