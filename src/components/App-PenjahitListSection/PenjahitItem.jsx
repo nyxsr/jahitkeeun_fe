@@ -20,7 +20,7 @@ function PenjahitItem(props) {
   }, []);
   return (
     <div
-      className="flex justify-evenly w-80 mx-auto gap-5"
+      className="flex justify-evenly w-80 mx-auto gap-5 bg-white py-3 px-1 shadow-md"
       onClick={() => navigate(`detail/${props.id}`)}
     >
       <img
@@ -173,7 +173,7 @@ export function DetailTaylor() {
               </div>
             </div>
             <div className="flex justify-evenly gap-2 px-4">
-              <button className="bg-[#402E32] text-zinc-50 py-2 px-3 w-full rounded-md">
+              <button className="bg-[#402E32] text-zinc-50 py-2 px-3 w-full rounded-md" onClick={()=>window.location.href = `https://wa.me/${detail.taylor_phone}`}>
                 Chat
               </button>
               <button className="bg-zinc-50 text-[#402e32] py-2 px-3 border-[#402e32] border w-full rounded-md">
@@ -181,7 +181,7 @@ export function DetailTaylor() {
               </button>
             </div>
             <div className="px-4 mt-4">
-              <button className="bg-[#F1C232] text-[#402e32] py-3 font-semibold px-3 w-full rounded-md">
+              <button className="bg-[#F1C232] text-[#402e32] py-3 font-semibold px-3 w-full rounded-md" onClick={()=>navigate(`../home/detail/order/${detail.taylor_id}`)}>
                 PESAN JASA
               </button>
             </div>

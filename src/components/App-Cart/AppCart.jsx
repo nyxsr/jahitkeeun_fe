@@ -20,7 +20,7 @@ function AppCart() {
   const getCart = async () => {
     try {
       const response = await axios.get(
-        `http://apijahitkeeun.tepat.co.id/api/sectionitem/userId/2`,
+        `http://apijahitkeeun.tepat.co.id/api/sectionitem/userId/${data.client.user_id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

@@ -17,6 +17,7 @@ import { DetailTaylor } from "../../components/App-PenjahitListSection/PenjahitI
 import axios from "axios";
 import { UserAddress } from "../../components/App-UserLocation/UserLocation";
 import AppCart from "../../components/App-Cart/AppCart";
+import OrderService from "../../components/App-OrderService/OrderService";
 
 function Root() {
   const data = JSON.parse(sessionStorage.getItem("data"));
@@ -61,6 +62,7 @@ function Root() {
         <Route path="/home/cart" element={<AppCart />} />
         <Route path="/home/address/:id" element={<UserAddress />} />
         <Route path="/home/detail/:id" element={<DetailTaylor />} />
+        <Route path="/home/detail/order/:id" element={<OrderService />} />
         <Route path="/taylor/home" element={<TaylorHome />} />
         <Route path="/taylor/pesanan" element={<PesananTaylor />} />
         <Route path="/convection/home" element={<ConvectionHome />} />
