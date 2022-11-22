@@ -9,24 +9,31 @@ import { useSelector } from 'react-redux'
 function PenjahitList(props) {
   const [penjahit, setPenjahit] = useState([])
   const {paramsSearch} = useSelector(state => state.searchParam)
+  const token = sessionStorage.getItem('token')
   const isLoading = useRef(true);
   const searchData = {
     keyword:paramsSearch
   }
   
-  console.log(searchData);
+  const search = axios.post('http://apijahitkeeun.tepat.co.id/api/search', searchData ,{
+    headers:{
+      'Authorization': `Bearer ${token}`,
+      'Accept':'application/json'
+    }
+  })
 
-  const baseUrl = paramsSearch ? `http://apijahitkeeun.tepat.co.id/api/search` : `https://apijahitkeeun.tepat.co.id/api/taylor`
+  const list = axios.get('https://apijahitkeeun.tepat.co.id/api/taylor',{
+    headers:{
+      'Authorization': `Bearer ${token}`,
+      'Accept':'application/json'
+    }
+  })
 
-  const token = sessionStorage.getItem('token')
+  const baseUrl = paramsSearch ? search : list
+
   const getPenjahit = async() =>{
     try {
-      const response = await axios.post(baseUrl, searchData,{
-        headers:{
-          'Authorization': `Bearer ${token}`,
-          'Accept':'application/json'
-        }
-      })
+      const response = await baseUrl
       setPenjahit(paramsSearch ? response.data.data.data : response.data.data.data)
     } catch (error) {
       console.log(error)

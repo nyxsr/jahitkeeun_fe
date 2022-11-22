@@ -60,8 +60,8 @@ function Profil() {
         />
         <div className="bg-zinc-50 px-10 py-10 w-fit mx-auto relative text-center z-10 shadow-xl rounded-3xl mt-24">
           <img
-            src={data.client.photo ? data.client.photo : defaultPhoto}
-            className="rounded-full absolute w-1/2 -top-[5.8rem] left-1/4"
+            src={data.client.photo ? data.image : defaultPhoto}
+            className="rounded-full absolute w-1/3 -top-[5.8rem] left-1/3"
             alt=""
           />
           <p className="text-4xl font-bold pt-12">{data.nama}</p>
