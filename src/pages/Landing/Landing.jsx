@@ -9,12 +9,14 @@ import JoinWoman from '../../assets/join-woman.png'
 import karakter from '../../assets/karakter.png'
 import logo from "../../assets/logo.svg";
 import Footer from "../../components/Footer/Footer";
+import { useNavigate } from "react-router-dom";
 
 
 function Landing() {
   const {ref, inView} = useInView();
   const controls = useAnimation();
   const navbar = localStorage.getItem('isAuthSelected')
+  const navigate = useNavigate()
   useEffect(()=>{
     if (inView) {
       controls.start({
@@ -32,11 +34,22 @@ function Landing() {
       })
     }
   },[inView])
+  
+  const setLocalStorage = () =>{
+    localStorage.setItem('isAuthSelected',0)
+    navigate(0)
+  }
 
   useEffect(()=>{
+  let ignore = false
+  if (!ignore) {
     if (!navbar) {
-      localStorage.setItem('isAuthSelected',0)
-    }
+      setLocalStorage()
+  }  
+  }
+  return ()=>{
+    ignore = true
+  }
   },[])
   return (
     <>
