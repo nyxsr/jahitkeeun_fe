@@ -21,6 +21,7 @@ function OrderService(props) {
   var date = new Date().toISOString().split("T")[0];
   const [itemOptions, setItem] = useState();
   let grand;
+  
   const [selected, setSelected] = useState({
     user_id: data.client.user_id,
     service_id: null,

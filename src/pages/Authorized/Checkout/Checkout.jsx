@@ -140,8 +140,6 @@ function Checkout() {
     };
   }, []);
 
-  useEffect;
-
   return (
     <AnimatePresence>
     <div className="h-screen bg-slate-200">
