@@ -12,7 +12,7 @@ function MakloonList() {
 
     const getMakloon = async() =>{
         try {
-            const response = await axios.get('http://apijahitkeeun.tepat.co.id/api/datamaster/maklun',{
+            const response = await axios.get('http://api.jahitkeeun.my.id/api/datamaster/maklun',{
                 headers:{
                     Authorization:`Bearer ${token}`
                 }

@@ -8,6 +8,12 @@ import { ADD_PARAMS } from '../../slice/searchSlice';
 const SearchAndCart = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate()
+  
+  const getparams = (e) =>{
+    setTimeout(() => {
+      dispatch(ADD_PARAMS(e.target.value))
+    }, 2000);
+  }
 
   const data = JSON.parse(sessionStorage.getItem('data'))
 
@@ -16,7 +22,7 @@ const SearchAndCart = (props) => {
         <div className="flex justify-evenly md:justify-around items-center px-5 gap-1">
           {props.role === 'taylor' && (
              <div className="flex items-center w-fit px-3 rounded-md gap-2 focus-within:border focus-within:border-[#F1C232] focus-within:transition-all">
-            <img src={'https://apijahitkeeun.tepat.co.id/photo-user/avatar.png'} className='w-14' alt="" />
+            <img src={'https://api.jahitkeeun.my.id/photo-user/avatar.png'} className='w-14' alt="" />
             <p className='text-2xl font-bold'>Hi, {data.nama}</p>
            </div>
           )}
@@ -26,7 +32,7 @@ const SearchAndCart = (props) => {
               type="text"
               className="bg-white w-full md:w-80 py-2 px-2 border-none focus:outline-none focus:border-none focus:border-transparent"
               placeholder="Cari penjahit, item atau jasa"
-              onChange={(e)=>dispatch(ADD_PARAMS(e.target.value))}
+              onChange={getparams}
               />
             <span className="bg-white hover:cursor-pointer" onClick={()=>alert('Hehe')}>
               <BiSearch className="text-xl" />

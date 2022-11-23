@@ -15,14 +15,14 @@ function PenjahitList(props) {
     keyword:paramsSearch
   }
   
-  const search = axios.post('http://apijahitkeeun.tepat.co.id/api/search', searchData ,{
+  const search = axios.post('http://api.jahitkeeun.my.id/api/search', searchData ,{
     headers:{
       'Authorization': `Bearer ${token}`,
       'Accept':'application/json'
     }
   })
 
-  const list = axios.get('https://apijahitkeeun.tepat.co.id/api/taylor',{
+  const list = axios.get('https://api.jahitkeeun.my.id/api/taylor',{
     headers:{
       'Authorization': `Bearer ${token}`,
       'Accept':'application/json'

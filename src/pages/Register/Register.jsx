@@ -23,7 +23,7 @@ function Register() {
   const registerHandle = async() =>{
     const loading = toast.loading('Sedang diproses...')
     try {
-      const response = await axios.post('https://apijahitkeeun.tepat.co.id/api/auth/register', data,{
+      const response = await axios.post('https://api.jahitkeeun.my.id/api/auth/register', data,{
         headers:{
             'Accept': 'application/json',
             'Content-Type': 'application/json'

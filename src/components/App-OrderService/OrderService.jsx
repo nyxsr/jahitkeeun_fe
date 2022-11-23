@@ -39,7 +39,7 @@ function OrderService(props) {
 
   const getDetailPenjahit = async() =>{
     try {
-        const response = await axios.get(`http://apijahitkeeun.tepat.co.id/api/taylor/${id}`,{
+        const response = await axios.get(`http://api.jahitkeeun.my.id/api/taylor/${id}`,{
             headers:{
                 Authorization:`Bearer ${token}`
             }
@@ -53,7 +53,7 @@ function OrderService(props) {
   const getItem = async () => {
     try {
       const response = await axios.get(
-        `http://apijahitkeeun.tepat.co.id/api/sectionitem/taylorId/${id}`,
+        `http://api.jahitkeeun.my.id/api/sectionitem/taylorId/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -70,7 +70,7 @@ function OrderService(props) {
   const getService = async () => {
     try {
       const response = await axios.get(
-        `http://apijahitkeeun.tepat.co.id/api/sectionitem/taylorId/${id}/itemId/${selected.item}`,
+        `http://api.jahitkeeun.my.id/api/sectionitem/taylorId/${id}/itemId/${selected.item}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -94,7 +94,7 @@ function OrderService(props) {
     formData.append('pickup',selected.pickup)
     const loading = toast.loading('Sedang memasukkan ke keranjang...')
     try {
-      const response = await axios.post('http://apijahitkeeun.tepat.co.id/api/sectionitem',formData,{
+      const response = await axios.post('http://api.jahitkeeun.my.id/api/sectionitem',formData,{
         headers:{
           Authorization:`Bearer ${token}`,
           'Content-Type':'multipart/form-data'

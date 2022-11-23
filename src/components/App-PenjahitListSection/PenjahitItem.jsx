@@ -24,7 +24,7 @@ function PenjahitItem(props) {
       onClick={() => navigate(`detail/${props.id}`)}
     >
       <img
-        src={"https://apijahitkeeun.tepat.co.id/photo-user/" + props.foto}
+        src={"https://api.jahitkeeun.my.id/photo-user/" + props.foto}
         className="w-1/4 object-cover md:w-1/3"
       />
       <div className="flex flex-col gap-2 w-full">
@@ -71,7 +71,7 @@ export function DetailTaylor() {
   const getDetail = async () => {
     try {
       const response = await axios.get(
-        `http://apijahitkeeun.tepat.co.id/api/taylor/${id}`,
+        `http://api.jahitkeeun.my.id/api/taylor/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -89,7 +89,7 @@ export function DetailTaylor() {
   const getItems = async (id) => {
     try {
       const response = await axios.get(
-        `http://apijahitkeeun.tepat.co.id/api/sectionitem/taylorId/${id}`,
+        `http://api.jahitkeeun.my.id/api/sectionitem/taylorId/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

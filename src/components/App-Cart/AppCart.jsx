@@ -24,7 +24,7 @@ function AppCart() {
   const getCart = async () => {
     try {
       const response = await axios.get(
-        `http://apijahitkeeun.tepat.co.id/api/sectionitem/userId/${data.client.user_id}`,
+        `http://api.jahitkeeun.my.id/api/sectionitem/userId/${data.client.user_id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -120,7 +120,7 @@ function AppCart() {
                           <div className="flex gap-3">
                             <img
                               src={
-                                "http://apijahitkeeun.tepat.co.id/photo-item/" +
+                                "http://api.jahitkeeun.my.id/photo-item/" +
                                 v.photoItem
                               }
                               alt="fotoproduk"

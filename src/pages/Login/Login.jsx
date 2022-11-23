@@ -43,7 +43,7 @@ export default function Login() {
     const loading = toast.loading("Sedang Diproses dulu ya...");
     try {
       const response = await axios.post(
-        "https://apijahitkeeun.tepat.co.id/api/auth/login",
+        "https://api.jahitkeeun.my.id/api/auth/login",
         data,
         {
           headers: {

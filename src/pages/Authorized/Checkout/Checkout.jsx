@@ -44,7 +44,7 @@ function Checkout() {
   const getAlamat = async () => {
     try {
       const response = await axios.get(
-        `http://apijahitkeeun.tepat.co.id/api/sectionitemalamat/${data.client.user_id}`,
+        `http://api.jahitkeeun.my.id/api/sectionitemalamat/${data.client.user_id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -61,7 +61,7 @@ function Checkout() {
   const getItems = async () => {
     try {
       const response = await axios.get(
-        `http://apijahitkeeun.tepat.co.id/api/sectionitem/userId/${data.client.user_id}`,
+        `http://api.jahitkeeun.my.id/api/sectionitem/userId/${data.client.user_id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -77,7 +77,7 @@ function Checkout() {
   const getOptionsShipping = async () => {
     try {
       const response = await axios.get(
-        "http://apijahitkeeun.tepat.co.id/api/shippingmethod",
+        "http://api.jahitkeeun.my.id/api/shippingmethod",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -94,7 +94,7 @@ function Checkout() {
     setStatus("pending");
     try {
       const response = await axios.post(
-        `http://apijahitkeeun.tepat.co.id/api/sectionitem/checkout`,
+        `http://api.jahitkeeun.my.id/api/sectionitem/checkout`,
         post,
         {
           headers: {
@@ -205,7 +205,7 @@ function Checkout() {
                     <div key={i} className="flex gap-2 items-center">
                       <img
                         src={
-                          "http://apijahitkeeun.tepat.co.id/photo-cart/" +
+                          "http://api.jahitkeeun.my.id/photo-cart/" +
                           v.photoRef
                         }
                         className="rounded-md w-20 h-20"

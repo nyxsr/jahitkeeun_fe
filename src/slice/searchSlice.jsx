@@ -8,7 +8,7 @@ const searchSlice = createSlice({
     reducers:{
         ADD_PARAMS:(state,actions)=>{
             let params = actions.payload
-            state.paramsSearch = params
+                state.paramsSearch = params
         }
     }
 })

@@ -67,6 +67,7 @@ function Root() {
         <Route path="/home/detail/order/:id" element={<OrderService />} />
         <Route path="/taylor/home" element={<TaylorHome />} />
         <Route path="/taylor/pesanan" element={<PesananTaylor />} />
+        <Route path="/taylor/profil" element={<Profil />} />
         <Route path="/convection/home" element={<ConvectionHome />} />
         <Route path="/pesanan" element={<Pesanan />} />
         <Route path="/profil" element={<Profil />} />

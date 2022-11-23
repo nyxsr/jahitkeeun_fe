@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import OwlCarousel from "react-owl-carousel";
 import "owl.carousel/dist/assets/owl.carousel.css";
 import "owl.carousel/dist/assets/owl.theme.default.css";
-import blouse from "../../assets/blouse.svg";
 import axios from "axios";
 
 export const CategorySection = () => {
@@ -12,7 +11,7 @@ export const CategorySection = () => {
 
   const getCategory = async() =>{
     try {
-      const response = await axios.get('https://apijahitkeeun.tepat.co.id/api/sectionitem',{
+      const response = await axios.get('https://api.jahitkeeun.my.id/api/sectionitem',{
         headers:{
           'Authorization': `Bearer ${token}`,
           'Accept':'application/json'
@@ -45,7 +44,7 @@ export const CategorySection = () => {
         {item.map((v,i)=>{
           return(
         <div className="item bg-[#402E32] rounded-md" key={i}>
-          <img src={'https://apijahitkeeun.tepat.co.id/photo-item/'+v.itemPhoto} className='rounded-md py-2 px-2' alt="" />
+          <img src={'https://api.jahitkeeun.my.id/photo-item/'+v.itemPhoto} className='rounded-md py-2 px-2' alt="" />
           <p className="text-xl text-center text-white">{v.itemName}</p>
         </div>
           )
