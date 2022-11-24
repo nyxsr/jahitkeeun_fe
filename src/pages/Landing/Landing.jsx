@@ -105,6 +105,7 @@ function Landing() {
             className="p-10 lg:p-0 lg:w-[80rem]"
             src={HeaderWomanSewing}
             alt=""
+            width={1280}
           />
           {/* <img className='absolute w-[20rem] top-0' style={{zIndex:1}} src={HeaderSewing} alt="" /> */}
         </div>
@@ -160,7 +161,7 @@ function Landing() {
       </section>
       <div className="my-32 scroll-m-28" id="kontak">
         <div className="flex justify-evenly items-center flex-col md:flex-row border-2 mx-16 py-10 md:py-0 gap-10 md:gap-0">
-          <img src={logo} alt="" className="w-52 pt-8" />
+          <img src={logo} alt="" className="w-52 pt-8" width={208}/>
           <p className="text-center md:text-left">Anda memiliki pertanyaan atau keluhan ?</p>
           <button className="bg-zinc-50 px-5 py-3 text-xl shadow-lg rounded-lg">Kontak Kami</button>
         </div>
