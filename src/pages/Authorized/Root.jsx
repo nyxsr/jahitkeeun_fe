@@ -15,7 +15,7 @@ import Profil, { EditPassword, EditProfil } from "./Profil/Profil";
 import "react-toastify/dist/ReactToastify.css";
 import { DetailTaylor } from "../../components/App-PenjahitListSection/PenjahitItem";
 import axios from "axios";
-import { UserAddress } from "../../components/App-UserLocation/UserLocation";
+import { TambahAlamat, UserAddress } from "../../components/App-UserLocation/UserLocation";
 import AppCart from "../../components/App-Cart/AppCart";
 import OrderService from "../../components/App-OrderService/OrderService";
 import Checkout from "./Checkout/Checkout";
@@ -63,6 +63,7 @@ function Root() {
         <Route path="/home/cart" element={<AppCart />} />
         <Route path="/home/checkout" element={<Checkout />} />
         <Route path="/home/address/:id" element={<UserAddress />} />
+        <Route path="/home/address/add/:id" element={<TambahAlamat />} />
         <Route path="/home/detail/:id" element={<DetailTaylor />} />
         <Route path="/home/detail/order/:id" element={<OrderService />} />
         <Route path="/taylor/home" element={<TaylorHome />} />

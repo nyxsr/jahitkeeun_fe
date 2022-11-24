@@ -309,7 +309,7 @@ export function EditPassword() {
     const loading = toast.loading("Sedang mengganti...");
     try {
       const response = await axios.post(
-        `http://api.jahitkeeun.my.id/api/user/updatepw/${data.client.user_id}`,
+        `http://api.jahitkeeun.my.id/api/user/update/password/${data.client.user_id}`,
         datapw,
         {
           headers: {

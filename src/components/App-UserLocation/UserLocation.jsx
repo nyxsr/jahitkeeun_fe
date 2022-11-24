@@ -69,7 +69,6 @@ function UserLocation() {
 export default UserLocation;
 
 export function UserAddress() {
-  const { id } = useParams();
   const data = JSON.parse(sessionStorage.getItem("data"));
   const [alamat, setAlamat] = useState();
   const [isLoading, setLoading] = useState(true);
@@ -98,6 +97,8 @@ export function UserAddress() {
     getListAlamat();
   }, []);
 
+  console.log(alamat)
+
   return (
     <div className="h-screen bg-slate-200">
       <div className="w-screen md:w-[30.375rem] mx-auto pb-32 bg-[#FFF8EA] overflow-y-scroll relative h-screen">
@@ -121,8 +122,8 @@ export function UserAddress() {
                     className="flex items-center gap-3 px-10 mt-5 mx-5 border-2 border-black rounded-md py-3 font-semibold"
                     style={{
                       backgroundColor:
-                        v.jenisAlamat === "Utama" ? "#402e32" : "transparent",
-                      color: v.jenisAlamat === "Utama" ? "white" : "#402e32",
+                        i === 0 ? "#402e32" : "transparent",
+                      color: i === 0 ? "white" : "#402e32",
                     }}
                   >
                     <span className="flex-initial">
@@ -136,24 +137,40 @@ export function UserAddress() {
             })}
           </>
         )}
-        <motion.button onClick={()=>alert('Jurig')} whileTap={{scale:1.1}} className="absolute bottom-44 right-10 bg-[#F1C232] text-2xl px-3 py-3 rounded-full"><GoPlus/></motion.button>
+        <motion.button onClick={()=>navigate(`../home/address/add/${data.client.user_id}`)} whileTap={{scale:1.1}} className="fixed bottom-20 right-10 bg-[#F1C232] text-2xl px-3 py-3 rounded-full"><GoPlus/></motion.button>
       </div>
     </div>
   );
 }
 
 export function TambahAlamat() {
+  const {id} = useParams()
+  const navigate = useNavigate();
   return(
     <div className="h-screen bg-slate-200">
       <div className="w-screen md:w-[30.375rem] mx-auto pb-32 bg-[#FFF8EA] overflow-y-scroll relative h-screen">
       <div className="flex items-center mt-5 ml-5 gap-4">
           <button
             className="bg-[#402E32] text-zinc-50 rounded-md py-3 px-3"
-            onClick={() => navigate("../home")}
+            onClick={() => navigate(-1)}
           >
             <IoIosArrowBack className="text-3xl" />
           </button>
           <p className="text-xl font-semibold">Tambah Alamat</p>
+        </div>
+        <div className="flex flex-col">
+          <div className="flex flex-col mx-10">
+            <label htmlFor="">Alamat</label>
+            <textarea name="" id="" cols="30" rows="3" className="rounded-md border px-2 py-2" placeholder=""></textarea>
+          </div>
+          <div className="flex flex-col mx-10 mt-4">
+            <label htmlFor="">Kode Pos</label>
+            <input type="number" className="rounded-md px-2 py-2 border"/>
+          </div>
+          <div className="flex flex-col mx-10 mt-4">
+            <label htmlFor="">Kode Pos</label>
+            <input type="number" className="rounded-md px-2 py-2 border"/>
+          </div>
         </div>
       </div>
       </div>

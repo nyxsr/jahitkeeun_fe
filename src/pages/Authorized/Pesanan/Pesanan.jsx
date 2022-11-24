@@ -18,6 +18,7 @@ function Pesanan() {
   const [pendingList, setPendingList] = useState();
   const [status,setStatus] = useState(null);
   const [pendingLoad, setPendingLoad] = useState(true);
+  let endOfScreen = false;
 
   const getPesanan = async () => {
     setLoading(true)
@@ -233,6 +234,114 @@ function Pesanan() {
     }
   };
 
+  const payOrder = async(id) =>{
+    const tanya = window.confirm('Apakah anda yakin akan membayar ?')
+    if (!tanya){
+      return;
+    }
+    try {
+      const response = await axios.post(`http://api.jahitkeeun.my.id/api/ubahstatusorderdetailId/${id}`,{'orderstatus':'Menunggu Pickup'},{
+        headers:{
+          Authorization:`Bearer ${token}`
+        }
+      })
+      toast.success('Pembayaran Telah Dikonfirmasi! Terima Kasih!', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
+      getPesanan();
+    } catch (error) {
+      toast.error('Oops sepertinya ada masalah!', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
+    }
+  }
+
+  const pickuped = async(id) =>{
+    const tanya = window.confirm('Apakah anda barangnya sudah dilakukan Pickup ?')
+    if (!tanya){
+      return;
+    }
+    try {
+      const response = await axios.post(`http://api.jahitkeeun.my.id/api/ubahstatusorderdetailId/${id}`,{'orderstatus':'Pesanan Dalam Pengiriman'},{
+        headers:{
+          Authorization:`Bearer ${token}`
+        }
+      })
+      toast.success('Pesanan sudah dikirim!', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
+      getPesanan();
+    } catch (error) {
+      toast.error('Oops sepertinya ada masalah!', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
+    }
+  }
+
+  const delivered = async(id) =>{
+    const tanya = window.confirm('Apakah anda barangnya sudah diterima ?')
+    if (!tanya){
+      return;
+    }
+    try {
+      const response = await axios.post(`http://api.jahitkeeun.my.id/api/ubahstatusorderdetailId/${id}`,{'orderstatus':'Pesanan Diterima'},{
+        headers:{
+          Authorization:`Bearer ${token}`
+        }
+      })
+      toast.success('Pesanan sudah diterima, terima kasih telah berbelanja!', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
+      getPesanan();
+    } catch (error) {
+      toast.error('Oops sepertinya ada masalah!', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
+    }
+  }
+
   useEffect(() => {
     let ignore = false;
     if (!ignore) {
@@ -256,6 +365,7 @@ function Pesanan() {
   return (
     <div className="h-screen bg-slate-200">
       <div className="w-screen md:w-[30.375rem] mx-auto pb-32 bg-[#FFF8EA] overflow-y-scroll h-screen">
+        <ToastContainer className='fixed top-0 w-full'/>
         <div className="flex border-b border-b-[#F1C232] scrollbar-thin scrollbar-thumb-[#402E32] scrollbar-track-zinc-200 h-28 overflow-x-scroll">
           <button
             className="px-12 border-r"
@@ -332,7 +442,11 @@ function Pesanan() {
                    {isSelected === 0 && (
                   <>
                     {list?.map((v, i) => {
+                       if (i + 1 === list.length) {
+                         endOfScreen = true
+                      }
                       return (
+                        <>
                         <div key={i} className="bg-white shadow-md mx-5 px-3 my-3 rounded-md">
                           <div className="flex items-center justify-between py-3">
                             <div className="flex flex-col">
@@ -350,6 +464,10 @@ function Pesanan() {
                                 "http://apijahitkeeun.tepat.co.id/photo-cart/" +
                                 v.photoClient1
                               }
+                              onError={({ currentTarget }) => {
+                                currentTarget.onerror = null; // prevents looping
+                                currentTarget.src=DefaultPreview;
+                              }}
                               alt=""
                               className="rounded-md w-14 h-14"
                             />
@@ -382,7 +500,16 @@ function Pesanan() {
                               />
                             </div>
                           </div>
+                          <div className="flex pb-3">
+                            {(v.orderStatus === 'Menunggu Pembayaran') && <button className="rounded-md w-full bg-[#f1c232] py-2 px-2" onClick={()=>payOrder(v.id)}>Bayar Sekarang</button>}
+                            {(v.orderStatus === 'Pembayaran Terkonfirmasi') && <button className="rounded-md w-full bg-[#f1c232] py-2 px-2" onClick={()=>pickuped(v.id)}>Sudah di Pickup</button>}
+                            {(v.orderStatus === 'Menunggu Pickup') && <button className="rounded-md w-full bg-[#f1c232] py-2 px-2" onClick={()=>pickuped(v.id)}>Sudah di Pickup</button>}
+                            {v.orderStatus === 'Pesanan Selesai' && <button className="rounded-md w-full bg-[#f1c232] py-2 px-2">Selesaikan Pesanan</button>}
+                            {v.orderStatus === 'Selesai Pengerjaan (Konfirmasi Penerima)' && <button className="rounded-md w-full bg-[#f1c232] py-2 px-2" onClick={()=>delivered(v.id)}>Selesaikan Pesanan</button>}
+                          </div>
                         </div>
+                        {endOfScreen && <button className="px-6 text-center w-full bg-[#f1c232] py-5 my-5">Load More</button>}
+                        </>
                       );
                     })}
                   </>
@@ -849,6 +976,10 @@ function Pesanan() {
                              />
                            </div>
                          </div>
+                         <div className="flex pb-3">
+                            {v.orderStatus === 'Menunggu Pembayaran' && <button className="rounded-md w-full bg-[#f1c232] py-2 px-2">Bayar Sekarang</button>}
+                            {v.orderStatus === 'Pesanan Selesai' && <button className="rounded-md w-full bg-[#f1c232] py-2 px-2">Selesaikan Pesanan</button>}
+                          </div>
                        </div>
                      );
                    })}
@@ -940,7 +1071,7 @@ export function PesananTaylor(props) {
     try {
       const response = await axios.get(
         `http://api.jahitkeeun.my.id/api/dashboardtaylororder/${parseInt(
-          data.taylor.user_id
+          data.taylor.id
         )}`,
         {
           headers: {
@@ -1014,9 +1145,9 @@ export function PesananTaylor(props) {
                         <hr />
                         <div className="flex justify-around py-3 gap-3">
                           <img
-                            src="https://source.unsplash.com/100x100"
+                            src={'http://api.jahitkeeun.my.id/photo-cart/'+v.photoClient1}
                             alt=""
-                            className="rounded-md"
+                            className="rounded-md w-20 h-20 object-cover"
                           />
                           <div className="flex flex-col">
                             <p>{v.jasa}</p>
