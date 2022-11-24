@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import BackgroundProfil from "../../../assets/profile-bg.svg";
+import BackgroundProfil from "../../../assets/profile-bg.webp";
 import { FiEdit, FiLogOut } from "react-icons/fi";
 import { VscVersions } from "react-icons/vsc";
 import { MdPhotoCamera } from "react-icons/md";
@@ -12,8 +12,8 @@ import { IoIosArrowBack } from "react-icons/io";
 import { toast, Slide, ToastContainer } from "react-toastify";
 import { StyledContainer } from "./style";
 import { useNavigate } from "react-router-dom";
-import confirmImage from "../../../assets/undraw_update_re_swkp.svg";
-import defaultPhoto from "../../../assets/default-photo.png";
+import confirmImage from "../../../assets/undraw_update_re_swkp.webp";
+import defaultPhoto from "../../../assets/default-photo.webp";
 import { shortText } from "limit-text-js";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";

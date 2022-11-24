@@ -2,11 +2,11 @@ import React, { useEffect } from "react";
 import {useInView} from 'react-intersection-observer'
 import { HeaderWrapper } from "./style";
 import { motion, useAnimation } from "framer-motion";
-import HeaderWomanSewing from "../../assets/header-woman-sewing.png";
-import AboutImage from '../../assets/about-image.png'
+import HeaderWomanSewing from "../../assets/header-woman-sewing.webp";
+import AboutImage from '../../assets/about-image.webp'
 import HomeCard from "../../components/HomeCard/HomeCard";
-import JoinWoman from '../../assets/join-woman.png'
-import karakter from '../../assets/karakter.png'
+import JoinWoman from '../../assets/join-woman.webp'
+import karakter from '../../assets/karakter.webp'
 import logo from "../../assets/logo.svg";
 import Footer from "../../components/Footer/Footer";
 import { useNavigate } from "react-router-dom";

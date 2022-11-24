@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import loginBg from "../../assets/login-bg.svg";
+import loginBg from "../../assets/login-bg.webp";
 import {motion} from 'framer-motion'
 import {BiArrowBack} from 'react-icons/bi'
 import { useNavigate } from "react-router-dom";

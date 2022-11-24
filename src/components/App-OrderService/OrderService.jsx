@@ -4,7 +4,7 @@ import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
-import DefaultPreview from "../../assets/default_preview.png";
+import DefaultPreview from "../../assets/default_preview.webp";
 import {AnimatePresence, motion} from 'framer-motion'
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { NumericFormat } from "react-number-format";

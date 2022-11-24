@@ -8,7 +8,6 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { TOGGLED } from "../../slice/toggleSlice";
 import { IS_AUTH } from "../../slice/isAuthSlice";
-import { useEffect } from "react";
 import { IN_NAVBAR_APP } from "../../slice/inNavbarApp";
 
 function Navbar() {

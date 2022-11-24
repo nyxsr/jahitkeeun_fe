@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import headerimage from '../../assets/header.png'
+import headerimage from '../../assets/header.webp'
 
 export const HeaderWrapper = styled.header`
     background-image:url(${headerimage});

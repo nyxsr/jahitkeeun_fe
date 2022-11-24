@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { NumericFormat } from "react-number-format";
 import { toast, ToastContainer } from "react-toastify";
-import DefaultPreview from '../../../assets/default_preview.png'
+import DefaultPreview from '../../../assets/default_preview.webp'
 import { useDispatch, useSelector } from "react-redux";
 import { TOGGLED } from "../../../slice/toggleSlice";
 import LoadingButton from '../../../assets/loading-button.gif'
@@ -34,6 +34,7 @@ function Pesanan() {
           }
         );
         setList(response.data.data.data);
+        setStatus(null);
       } catch (error) {
         if (error.response.status === 404) {
           setStatus('Data tidak ada')
@@ -54,6 +55,7 @@ function Pesanan() {
           }
         );
         setList(response.data.data.data);
+        setStatus(null);
       } catch (error) {
         if (error.response.status === 404) {
           setStatus('Data tidak ada')
@@ -74,6 +76,7 @@ function Pesanan() {
           }
         );
         setList(response.data.data.data);
+        setStatus(null);
       } catch (error) {
         if (error.response.status === 404) {
           setStatus('Data tidak ada')
@@ -94,6 +97,7 @@ function Pesanan() {
           }
         );
         setList(response.data.data.data);
+        setStatus(null);
       } catch (error) {
         if (error.response.status === 404) {
           setStatus('Data tidak ada')
@@ -114,6 +118,7 @@ function Pesanan() {
           }
         );
         setList(response.data.data.data);
+        setStatus(null);
       } catch (error) {
         if (error.response.status === 404) {
           setStatus('Data tidak ada')
@@ -134,6 +139,7 @@ function Pesanan() {
           }
         );
         setList(response.data.data.data);
+        setStatus(null);
       } catch (error) {
         if (error.response.status === 404) {
           setStatus('Data tidak ada')
@@ -154,6 +160,7 @@ function Pesanan() {
           }
         );
         setList(response.data.data.data);
+        setStatus(null);
       } catch (error) {
         if (error.response.status === 404) {
           setStatus('Data tidak ada')
@@ -174,6 +181,7 @@ function Pesanan() {
           }
         );
         setList(response.data.data.data);
+        setStatus(null);
       } catch (error) {
         if (error.response.status === 404) {
           setStatus('Data tidak ada')
@@ -194,6 +202,7 @@ function Pesanan() {
           }
         );
         setList(response.data.data.data);
+        setStatus(null);
       } catch (error) {
         if (error.response.status === 404) {
           setStatus('Data tidak ada')
@@ -317,20 +326,20 @@ function Pesanan() {
             {isLoading && <p className="text-center">Memuat pesanan...</p>}
             {isLoading === false && (
               <>
-                {status && <p className="text-center">{status}</p>}
+                {status !== null && <p className="text-center">{status}</p>}
                 {status === null && (
                   <>
                    {isSelected === 0 && (
                   <>
                     {list?.map((v, i) => {
                       return (
-                        <div className="bg-white shadow-md mx-5 px-3 my-3 rounded-md">
+                        <div key={i} className="bg-white shadow-md mx-5 px-3 my-3 rounded-md">
                           <div className="flex items-center justify-between py-3">
                             <div className="flex flex-col">
                               <p className="font-bold">{v.namapenjahit}</p>
                               <p className="">{v.invoice}</p>
                             </div>
-                            <p className="bg-[#f1c232] py-1 px-2 rounded-md">
+                            <p className="bg-[#f1c232] text-center py-1 px-2 rounded-md">
                               {v.orderStatus}
                             </p>
                           </div>
@@ -385,7 +394,7 @@ function Pesanan() {
                     </p>
                     {pendingList?.map((v, i) => {
                       return (
-                        <div className="bg-white shadow-md mx-5 px-3 my-3 rounded-md">
+                        <div key={1} className="bg-white shadow-md mx-5 px-3 my-3 rounded-md">
                           <div className="flex items-center justify-between py-3">
                             <div className="flex flex-col">
                               <p className="font-bold">{v.namapenjahit}</p>
@@ -443,13 +452,13 @@ function Pesanan() {
                     </p>
                     {list?.map((v, i) => {
                       return (
-                        <div className="bg-white shadow-md mx-5 px-3 my-3 rounded-md">
+                        <div key={i} className="bg-white shadow-md mx-5 px-3 my-3 rounded-md">
                           <div className="flex items-center justify-between py-3">
                             <div className="flex flex-col">
                               <p className="font-bold">{v.namapenjahit}</p>
                               <p className="">{v.invoice}</p>
                             </div>
-                            <p className="bg-[#f1c232] py-1 px-2 rounded-md">
+                            <p className="bg-[#f1c232] text-center py-1 px-2 rounded-md">
                               {v.orderStatus}
                             </p>
                           </div>
@@ -982,7 +991,7 @@ export function PesananTaylor(props) {
     <div className="h-screen bg-slate-200">
       <div className="w-screen md:w-[30.375rem] mx-auto pb-32 bg-[#FFF8EA] overflow-y-scroll h-screen">
         <ToastContainer/>
-        {toggle && <FormBukti/>}
+        {toggle && <FormBukti getPesanan={getPesanan}/>}
         <div>
           <AnimatePresence>
             {isLoading && <p className="text-center">Memuat pesanan...</p>}
@@ -1044,7 +1053,7 @@ export function PesananTaylor(props) {
   );
 }
 
-const FormBukti = () =>{
+const FormBukti = (props) =>{
   const token = sessionStorage.getItem('token')
   const data = JSON.parse(sessionStorage.getItem('data'))
   const [isLoading, setLoading] = useState(false);
@@ -1055,17 +1064,29 @@ const FormBukti = () =>{
 
   const sendProve = async() =>{
     const formData = new FormData()
-    formData.append('photoTaylor1',foto)
+    formData.append('photoTaylor1',foto.photoTaylor1)
     setLoading(true)
     try {
       const response = await axios.post(`http://api.jahitkeeun.my.id/api/ubahkonfirmasipengerjaanorderdetailId/${id}`,formData,{
         headers:{
-          Authorization:`Bearer ${token}`
+          Authorization:`Bearer ${token}`,
+          'Content-Type':'multipart/form-data'
         }
       })
       setLoading(false)
       localStorage.removeItem('id')
       dispatch(TOGGLED(false))
+      toast.success('Pesanan sudah diselesaikan, akan dikonfirmasi oleh client!', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
+        props.getPesanan()
     } catch (error) {
       console.log(error)
       setLoading(false)
