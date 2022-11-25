@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {useInView} from 'react-intersection-observer'
 import { HeaderWrapper } from "./style";
 import { motion, useAnimation } from "framer-motion";
@@ -17,6 +17,7 @@ function Landing() {
   const controls = useAnimation();
   const navbar = localStorage.getItem('isAuthSelected')
   const navigate = useNavigate()
+  const [isLoading,setLoading] = useState(true);
   useEffect(()=>{
     if (inView) {
       controls.start({

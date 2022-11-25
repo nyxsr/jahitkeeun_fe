@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { TOGGLED } from "../../../slice/toggleSlice";
 import LoadingButton from '../../../assets/loading-button.gif'
 import { Navigate, useNavigate } from "react-router-dom";
+import { MdClose } from "react-icons/md";
 
 function Pesanan() {
   const [isSelected, setSelected] = useState(0);
@@ -365,7 +366,6 @@ function Pesanan() {
   return (
     <div className="h-screen bg-slate-200">
       <div className="w-screen md:w-[30.375rem] mx-auto pb-32 bg-[#FFF8EA] overflow-y-scroll h-screen">
-        <ToastContainer className='fixed top-0 w-full'/>
         <div className="flex border-b border-b-[#F1C232] scrollbar-thin scrollbar-thumb-[#402E32] scrollbar-track-zinc-200 h-28 overflow-x-scroll">
           <button
             className="px-12 border-r"
@@ -433,6 +433,7 @@ function Pesanan() {
         </div>
         <div>
           <AnimatePresence>
+        <ToastContainer className='fixed top-0 w-full md:w-[30.375rem] mx-auto'/>
             {isLoading && <p className="text-center">Memuat pesanan...</p>}
             {isLoading === false && (
               <>
@@ -461,7 +462,9 @@ function Pesanan() {
                           <div className="flex justify-around py-3">
                             <img
                               src={
-                                "http://apijahitkeeun.tepat.co.id/photo-cart/" +
+                                v.orderStatus === 'Selesai Pengerjaan (Konfirmasi Penerima)' || v.orderStatus === 'Pesanan Diterima' || v.orderStatus === 'Pesanan Selesai' ?
+                                "http://api.jahitkeeun.my.id/photo-cart/" +
+                                v.photoTaylor1 : "http://api.jahitkeeun.my.id/photo-cart/" +
                                 v.photoClient1
                               }
                               onError={({ currentTarget }) => {
@@ -538,6 +541,10 @@ function Pesanan() {
                                 "http://apijahitkeeun.tepat.co.id/photo-cart/" +
                                 v.photoClient1
                               }
+                              onError={({ currentTarget }) => {
+                                currentTarget.onerror = null; // prevents looping
+                                currentTarget.src=DefaultPreview;
+                              }}
                               alt=""
                               className="rounded-md w-14 h-14"
                             />
@@ -596,6 +603,10 @@ function Pesanan() {
                                 "http://apijahitkeeun.tepat.co.id/photo-cart/" +
                                 v.photoClient1
                               }
+                              onError={({ currentTarget }) => {
+                                currentTarget.onerror = null; // prevents looping
+                                currentTarget.src=DefaultPreview;
+                              }}
                               alt=""
                               className="rounded-md w-14 h-14"
                             />
@@ -628,6 +639,13 @@ function Pesanan() {
                               />
                             </div>
                           </div>
+                          <div className="flex pb-3">
+                            {(v.orderStatus === 'Menunggu Pembayaran') && <button className="rounded-md w-full bg-[#f1c232] py-2 px-2" onClick={()=>payOrder(v.id)}>Bayar Sekarang</button>}
+                            {(v.orderStatus === 'Pembayaran Terkonfirmasi') && <button className="rounded-md w-full bg-[#f1c232] py-2 px-2" onClick={()=>pickuped(v.id)}>Sudah di Pickup</button>}
+                            {(v.orderStatus === 'Menunggu Pickup') && <button className="rounded-md w-full bg-[#f1c232] py-2 px-2" onClick={()=>pickuped(v.id)}>Sudah di Pickup</button>}
+                            {v.orderStatus === 'Pesanan Selesai' && <button className="rounded-md w-full bg-[#f1c232] py-2 px-2">Selesaikan Pesanan</button>}
+                            {v.orderStatus === 'Selesai Pengerjaan (Konfirmasi Penerima)' && <button className="rounded-md w-full bg-[#f1c232] py-2 px-2" onClick={()=>delivered(v.id)}>Selesaikan Pesanan</button>}
+                          </div>
                         </div>
                       );
                     })}
@@ -654,296 +672,10 @@ function Pesanan() {
                                "http://apijahitkeeun.tepat.co.id/photo-cart/" +
                                v.photoClient1
                              }
-                             alt=""
-                             className="rounded-md w-14 h-14"
-                           />
-                           <div className="flex flex-col">
-                             <p className="font-bold text-xl">{v.namaitem}</p>
-                             <p>{v.jasa}</p>
-                           </div>
-                           <div className="flex flex-col items-end">
-                             <p>x{v.quantity}</p>
-                             <NumericFormat
-                               value={parseInt(v.price)}
-                               prefix={"Rp."}
-                               thousandSeparator={","}
-                               displayType="text"
-                               className="text-right"
-                             />
-                           </div>
-                         </div>
-                         <hr />
-                         <div className="flex items-center px-3 py-3 justify-between">
-                           <p>{v.quantity} item</p>
-                           <div className="flex flex-col items-end">
-                             <p>Total Pembayaran:</p>
-                             <NumericFormat
-                               value={parseInt(v.price)}
-                               prefix={"Rp."}
-                               thousandSeparator={","}
-                               displayType="text"
-                               className="text-right font-bold"
-                             />
-                           </div>
-                         </div>
-                       </div>
-                     );
-                   })}
-                 </>
-                )}
-                {isSelected === 3 && (
-                  <>
-                  {list?.map((v, i) => {
-                    return (
-                      <div className="bg-white shadow-md mx-5 px-3 my-3 rounded-md">
-                        <div className="flex items-center justify-between py-3">
-                          <div className="flex flex-col">
-                            <p className="font-bold">{v.namapenjahit}</p>
-                            <p className="">{v.invoice}</p>
-                          </div>
-                          <p className="bg-[#f1c232] py-1 px-2 rounded-md">
-                            {v.orderStatus}
-                          </p>
-                        </div>
-                        <hr />
-                        <div className="flex justify-around py-3">
-                          <img
-                            src={
-                              "http://apijahitkeeun.tepat.co.id/photo-cart/" +
-                              v.photoClient1
-                            }
-                            alt=""
-                            className="rounded-md w-14 h-14"
-                          />
-                          <div className="flex flex-col">
-                            <p className="font-bold text-xl">{v.namaitem}</p>
-                            <p>{v.jasa}</p>
-                          </div>
-                          <div className="flex flex-col items-end">
-                            <p>x{v.quantity}</p>
-                            <NumericFormat
-                              value={parseInt(v.price)}
-                              prefix={"Rp."}
-                              thousandSeparator={","}
-                              displayType="text"
-                              className="text-right"
-                            />
-                          </div>
-                        </div>
-                        <hr />
-                        <div className="flex items-center px-3 py-3 justify-between">
-                          <p>{v.quantity} item</p>
-                          <div className="flex flex-col items-end">
-                            <p>Total Pembayaran:</p>
-                            <NumericFormat
-                              value={parseInt(v.price)}
-                              prefix={"Rp."}
-                              thousandSeparator={","}
-                              displayType="text"
-                              className="text-right font-bold"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </>
-                )}
-                {isSelected === 4 && (
-                   <>
-                   {list?.map((v, i) => {
-                     return (
-                       <div className="bg-white shadow-md mx-5 px-3 my-3 rounded-md">
-                         <div className="flex items-center justify-between py-3">
-                           <div className="flex flex-col">
-                             <p className="font-bold">{v.namapenjahit}</p>
-                             <p className="">{v.invoice}</p>
-                           </div>
-                           <p className="bg-[#f1c232] py-1 px-2 rounded-md">
-                             {v.orderStatus}
-                           </p>
-                         </div>
-                         <hr />
-                         <div className="flex justify-around py-3">
-                           <img
-                             src={
-                               "http://apijahitkeeun.tepat.co.id/photo-cart/" +
-                               v.photoClient1
-                             }
-                             alt=""
-                             className="rounded-md w-14 h-14"
-                           />
-                           <div className="flex flex-col">
-                             <p className="font-bold text-xl">{v.namaitem}</p>
-                             <p>{v.jasa}</p>
-                           </div>
-                           <div className="flex flex-col items-end">
-                             <p>x{v.quantity}</p>
-                             <NumericFormat
-                               value={parseInt(v.price)}
-                               prefix={"Rp."}
-                               thousandSeparator={","}
-                               displayType="text"
-                               className="text-right"
-                             />
-                           </div>
-                         </div>
-                         <hr />
-                         <div className="flex items-center px-3 py-3 justify-between">
-                           <p>{v.quantity} item</p>
-                           <div className="flex flex-col items-end">
-                             <p>Total Pembayaran:</p>
-                             <NumericFormat
-                               value={parseInt(v.price)}
-                               prefix={"Rp."}
-                               thousandSeparator={","}
-                               displayType="text"
-                               className="text-right font-bold"
-                             />
-                           </div>
-                         </div>
-                       </div>
-                     );
-                   })}
-                  </>
-                )}
-                {isSelected === 5 && (
-                   <>
-                   {list?.map((v, i) => {
-                     return (
-                       <div className="bg-white shadow-md mx-5 px-3 my-3 rounded-md">
-                         <div className="flex items-center justify-between py-3">
-                           <div className="flex flex-col">
-                             <p className="font-bold">{v.namapenjahit}</p>
-                             <p className="">{v.invoice}</p>
-                           </div>
-                           <p className="bg-[#f1c232] py-1 px-2 rounded-md">
-                             {v.orderStatus}
-                           </p>
-                         </div>
-                         <hr />
-                         <div className="flex justify-around py-3">
-                           <img
-                             src={
-                               "http://apijahitkeeun.tepat.co.id/photo-cart/" +
-                               v.photoClient1
-                             }
-                             alt=""
-                             className="rounded-md w-14 h-14"
-                           />
-                           <div className="flex flex-col">
-                             <p className="font-bold text-xl">{v.namaitem}</p>
-                             <p>{v.jasa}</p>
-                           </div>
-                           <div className="flex flex-col items-end">
-                             <p>x{v.quantity}</p>
-                             <NumericFormat
-                               value={parseInt(v.price)}
-                               prefix={"Rp."}
-                               thousandSeparator={","}
-                               displayType="text"
-                               className="text-right"
-                             />
-                           </div>
-                         </div>
-                         <hr />
-                         <div className="flex items-center px-3 py-3 justify-between">
-                           <p>{v.quantity} item</p>
-                           <div className="flex flex-col items-end">
-                             <p>Total Pembayaran:</p>
-                             <NumericFormat
-                               value={parseInt(v.price)}
-                               prefix={"Rp."}
-                               thousandSeparator={","}
-                               displayType="text"
-                               className="text-right font-bold"
-                             />
-                           </div>
-                         </div>
-                       </div>
-                     );
-                   })}
-                 </>
-                )}
-                {isSelected === 6 && (
-                   <>
-                   {list?.map((v, i) => {
-                     return (
-                       <div className="bg-white shadow-md mx-5 px-3 my-3 rounded-md">
-                         <div className="flex items-center justify-between py-3">
-                           <div className="flex flex-col">
-                             <p className="font-bold">{v.namapenjahit}</p>
-                             <p className="">{v.invoice}</p>
-                           </div>
-                           <p className="bg-[#f1c232] py-1 px-2 rounded-md">
-                             {v.orderStatus}
-                           </p>
-                         </div>
-                         <hr />
-                         <div className="flex justify-around py-3">
-                           <img
-                             src={
-                               "http://apijahitkeeun.tepat.co.id/photo-cart/" +
-                               v.photoClient1
-                             }
-                             alt=""
-                             className="rounded-md w-14 h-14"
-                           />
-                           <div className="flex flex-col">
-                             <p className="font-bold text-xl">{v.namaitem}</p>
-                             <p>{v.jasa}</p>
-                           </div>
-                           <div className="flex flex-col items-end">
-                             <p>x{v.quantity}</p>
-                             <NumericFormat
-                               value={parseInt(v.price)}
-                               prefix={"Rp."}
-                               thousandSeparator={","}
-                               displayType="text"
-                               className="text-right"
-                             />
-                           </div>
-                         </div>
-                         <hr />
-                         <div className="flex items-center px-3 py-3 justify-between">
-                           <p>{v.quantity} item</p>
-                           <div className="flex flex-col items-end">
-                             <p>Total Pembayaran:</p>
-                             <NumericFormat
-                               value={parseInt(v.price)}
-                               prefix={"Rp."}
-                               thousandSeparator={","}
-                               displayType="text"
-                               className="text-right font-bold"
-                             />
-                           </div>
-                         </div>
-                       </div>
-                     );
-                   })}
-                 </>
-                )}
-                {isSelected === 7 && (
-                   <>
-                   {list?.map((v, i) => {
-                     return (
-                       <div className="bg-white shadow-md mx-5 px-3 my-3 rounded-md">
-                         <div className="flex items-center justify-between py-3">
-                           <div className="flex flex-col">
-                             <p className="font-bold">{v.namapenjahit}</p>
-                             <p className="">{v.invoice}</p>
-                           </div>
-                           <p className="bg-[#f1c232] py-1 px-2 rounded-md">
-                             {v.orderStatus}
-                           </p>
-                         </div>
-                         <hr />
-                         <div className="flex justify-around py-3">
-                           <img
-                             src={
-                               "http://apijahitkeeun.tepat.co.id/photo-cart/" +
-                               v.photoClient1
-                             }
+                             onError={({ currentTarget }) => {
+                              currentTarget.onerror = null; // prevents looping
+                              currentTarget.src=DefaultPreview;
+                            }}
                              alt=""
                              className="rounded-md w-14 h-14"
                            />
@@ -977,15 +709,87 @@ function Pesanan() {
                            </div>
                          </div>
                          <div className="flex pb-3">
-                            {v.orderStatus === 'Menunggu Pembayaran' && <button className="rounded-md w-full bg-[#f1c232] py-2 px-2">Bayar Sekarang</button>}
+                            {(v.orderStatus === 'Menunggu Pembayaran') && <button className="rounded-md w-full bg-[#f1c232] py-2 px-2" onClick={()=>payOrder(v.id)}>Bayar Sekarang</button>}
+                            {(v.orderStatus === 'Pembayaran Terkonfirmasi') && <button className="rounded-md w-full bg-[#f1c232] py-2 px-2" onClick={()=>pickuped(v.id)}>Sudah di Pickup</button>}
+                            {(v.orderStatus === 'Menunggu Pickup') && <button className="rounded-md w-full bg-[#f1c232] py-2 px-2" onClick={()=>pickuped(v.id)}>Sudah di Pickup</button>}
                             {v.orderStatus === 'Pesanan Selesai' && <button className="rounded-md w-full bg-[#f1c232] py-2 px-2">Selesaikan Pesanan</button>}
+                            {v.orderStatus === 'Selesai Pengerjaan (Konfirmasi Penerima)' && <button className="rounded-md w-full bg-[#f1c232] py-2 px-2" onClick={()=>delivered(v.id)}>Selesaikan Pesanan</button>}
                           </div>
                        </div>
                      );
                    })}
                  </>
                 )}
-                {isSelected === 8 && (
+                {isSelected === 3 && (
+                  <>
+                  {list?.map((v, i) => {
+                    return (
+                      <div className="bg-white shadow-md mx-5 px-3 my-3 rounded-md">
+                        <div className="flex items-center justify-between py-3">
+                          <div className="flex flex-col">
+                            <p className="font-bold">{v.namapenjahit}</p>
+                            <p className="">{v.invoice}</p>
+                          </div>
+                          <p className="bg-[#f1c232] py-1 px-2 rounded-md">
+                            {v.orderStatus}
+                          </p>
+                        </div>
+                        <hr />
+                        <div className="flex justify-around py-3">
+                          <img
+                            src={
+                              "http://apijahitkeeun.tepat.co.id/photo-cart/" +
+                              v.photoClient1
+                            }
+                            onError={({ currentTarget }) => {
+                              currentTarget.onerror = null; // prevents looping
+                              currentTarget.src=DefaultPreview;
+                            }}
+                            alt=""
+                            className="rounded-md w-14 h-14"
+                          />
+                          <div className="flex flex-col">
+                            <p className="font-bold text-xl">{v.namaitem}</p>
+                            <p>{v.jasa}</p>
+                          </div>
+                          <div className="flex flex-col items-end">
+                            <p>x{v.quantity}</p>
+                            <NumericFormat
+                              value={parseInt(v.price)}
+                              prefix={"Rp."}
+                              thousandSeparator={","}
+                              displayType="text"
+                              className="text-right"
+                            />
+                          </div>
+                        </div>
+                        <hr />
+                        <div className="flex items-center px-3 py-3 justify-between">
+                          <p>{v.quantity} item</p>
+                          <div className="flex flex-col items-end">
+                            <p>Total Pembayaran:</p>
+                            <NumericFormat
+                              value={parseInt(v.price)}
+                              prefix={"Rp."}
+                              thousandSeparator={","}
+                              displayType="text"
+                              className="text-right font-bold"
+                            />
+                          </div>
+                        </div>
+                        <div className="flex pb-3">
+                            {(v.orderStatus === 'Menunggu Pembayaran') && <button className="rounded-md w-full bg-[#f1c232] py-2 px-2" onClick={()=>payOrder(v.id)}>Bayar Sekarang</button>}
+                            {(v.orderStatus === 'Pembayaran Terkonfirmasi') && <button className="rounded-md w-full bg-[#f1c232] py-2 px-2" onClick={()=>pickuped(v.id)}>Sudah di Pickup</button>}
+                            {(v.orderStatus === 'Menunggu Pickup') && <button className="rounded-md w-full bg-[#f1c232] py-2 px-2" onClick={()=>pickuped(v.id)}>Sudah di Pickup</button>}
+                            {v.orderStatus === 'Pesanan Selesai' && <button className="rounded-md w-full bg-[#f1c232] py-2 px-2">Selesaikan Pesanan</button>}
+                            {v.orderStatus === 'Selesai Pengerjaan (Konfirmasi Penerima)' && <button className="rounded-md w-full bg-[#f1c232] py-2 px-2" onClick={()=>delivered(v.id)}>Selesaikan Pesanan</button>}
+                          </div>
+                      </div>
+                    );
+                  })}
+                </>
+                )}
+                {isSelected === 4 && (
                    <>
                    {list?.map((v, i) => {
                      return (
@@ -1006,6 +810,10 @@ function Pesanan() {
                                "http://apijahitkeeun.tepat.co.id/photo-cart/" +
                                v.photoClient1
                              }
+                             onError={({ currentTarget }) => {
+                              currentTarget.onerror = null; // prevents looping
+                              currentTarget.src=DefaultPreview;
+                            }}
                              alt=""
                              className="rounded-md w-14 h-14"
                            />
@@ -1038,6 +846,289 @@ function Pesanan() {
                              />
                            </div>
                          </div>
+                         <div className="flex pb-3">
+                            {(v.orderStatus === 'Menunggu Pembayaran') && <button className="rounded-md w-full bg-[#f1c232] py-2 px-2" onClick={()=>payOrder(v.id)}>Bayar Sekarang</button>}
+                            {(v.orderStatus === 'Pembayaran Terkonfirmasi') && <button className="rounded-md w-full bg-[#f1c232] py-2 px-2" onClick={()=>pickuped(v.id)}>Sudah di Pickup</button>}
+                            {(v.orderStatus === 'Menunggu Pickup') && <button className="rounded-md w-full bg-[#f1c232] py-2 px-2" onClick={()=>pickuped(v.id)}>Sudah di Pickup</button>}
+                            {v.orderStatus === 'Pesanan Selesai' && <button className="rounded-md w-full bg-[#f1c232] py-2 px-2">Selesaikan Pesanan</button>}
+                            {v.orderStatus === 'Selesai Pengerjaan (Konfirmasi Penerima)' && <button className="rounded-md w-full bg-[#f1c232] py-2 px-2" onClick={()=>delivered(v.id)}>Selesaikan Pesanan</button>}
+                          </div>
+                       </div>
+                     );
+                   })}
+                  </>
+                )}
+                {isSelected === 5 && (
+                   <>
+                   {list?.map((v, i) => {
+                     return (
+                       <div className="bg-white shadow-md mx-5 px-3 my-3 rounded-md">
+                         <div className="flex items-center justify-between py-3">
+                           <div className="flex flex-col">
+                             <p className="font-bold">{v.namapenjahit}</p>
+                             <p className="">{v.invoice}</p>
+                           </div>
+                           <p className="bg-[#f1c232] py-1 px-2 rounded-md">
+                             {v.orderStatus}
+                           </p>
+                         </div>
+                         <hr />
+                         <div className="flex justify-around py-3">
+                           <img
+                             src={
+                               "http://apijahitkeeun.tepat.co.id/photo-cart/" +
+                               v.photoClient1
+                             }
+                             onError={({ currentTarget }) => {
+                              currentTarget.onerror = null; // prevents looping
+                              currentTarget.src=DefaultPreview;
+                            }}
+                             alt=""
+                             className="rounded-md w-14 h-14"
+                           />
+                           <div className="flex flex-col">
+                             <p className="font-bold text-xl">{v.namaitem}</p>
+                             <p>{v.jasa}</p>
+                           </div>
+                           <div className="flex flex-col items-end">
+                             <p>x{v.quantity}</p>
+                             <NumericFormat
+                               value={parseInt(v.price)}
+                               prefix={"Rp."}
+                               thousandSeparator={","}
+                               displayType="text"
+                               className="text-right"
+                             />
+                           </div>
+                         </div>
+                         <hr />
+                         <div className="flex items-center px-3 py-3 justify-between">
+                           <p>{v.quantity} item</p>
+                           <div className="flex flex-col items-end">
+                             <p>Total Pembayaran:</p>
+                             <NumericFormat
+                               value={parseInt(v.price)}
+                               prefix={"Rp."}
+                               thousandSeparator={","}
+                               displayType="text"
+                               className="text-right font-bold"
+                             />
+                           </div>
+                         </div>
+                         <div className="flex pb-3">
+                            {(v.orderStatus === 'Menunggu Pembayaran') && <button className="rounded-md w-full bg-[#f1c232] py-2 px-2" onClick={()=>payOrder(v.id)}>Bayar Sekarang</button>}
+                            {(v.orderStatus === 'Pembayaran Terkonfirmasi') && <button className="rounded-md w-full bg-[#f1c232] py-2 px-2" onClick={()=>pickuped(v.id)}>Sudah di Pickup</button>}
+                            {(v.orderStatus === 'Menunggu Pickup') && <button className="rounded-md w-full bg-[#f1c232] py-2 px-2" onClick={()=>pickuped(v.id)}>Sudah di Pickup</button>}
+                            {v.orderStatus === 'Pesanan Selesai' && <button className="rounded-md w-full bg-[#f1c232] py-2 px-2">Selesaikan Pesanan</button>}
+                            {v.orderStatus === 'Selesai Pengerjaan (Konfirmasi Penerima)' && <button className="rounded-md w-full bg-[#f1c232] py-2 px-2" onClick={()=>delivered(v.id)}>Selesaikan Pesanan</button>}
+                          </div>
+                       </div>
+                     );
+                   })}
+                 </>
+                )}
+                {isSelected === 6 && (
+                   <>
+                   {list?.map((v, i) => {
+                     return (
+                       <div className="bg-white shadow-md mx-5 px-3 my-3 rounded-md">
+                         <div className="flex items-center justify-between py-3">
+                           <div className="flex flex-col">
+                             <p className="font-bold">{v.namapenjahit}</p>
+                             <p className="">{v.invoice}</p>
+                           </div>
+                           <p className="bg-[#f1c232] py-1 px-2 rounded-md">
+                             {v.orderStatus}
+                           </p>
+                         </div>
+                         <hr />
+                         <div className="flex justify-around py-3">
+                           <img
+                             src={
+                               "http://apijahitkeeun.tepat.co.id/photo-cart/" +
+                               v.photoClient1
+                             }
+                             onError={({ currentTarget }) => {
+                              currentTarget.onerror = null; // prevents looping
+                              currentTarget.src=DefaultPreview;
+                            }}
+                             alt=""
+                             className="rounded-md w-14 h-14"
+                           />
+                           <div className="flex flex-col">
+                             <p className="font-bold text-xl">{v.namaitem}</p>
+                             <p>{v.jasa}</p>
+                           </div>
+                           <div className="flex flex-col items-end">
+                             <p>x{v.quantity}</p>
+                             <NumericFormat
+                               value={parseInt(v.price)}
+                               prefix={"Rp."}
+                               thousandSeparator={","}
+                               displayType="text"
+                               className="text-right"
+                             />
+                           </div>
+                         </div>
+                         <hr />
+                         <div className="flex items-center px-3 py-3 justify-between">
+                           <p>{v.quantity} item</p>
+                           <div className="flex flex-col items-end">
+                             <p>Total Pembayaran:</p>
+                             <NumericFormat
+                               value={parseInt(v.price)}
+                               prefix={"Rp."}
+                               thousandSeparator={","}
+                               displayType="text"
+                               className="text-right font-bold"
+                             />
+                           </div>
+                         </div>
+                         <div className="flex pb-3">
+                            {(v.orderStatus === 'Menunggu Pembayaran') && <button className="rounded-md w-full bg-[#f1c232] py-2 px-2" onClick={()=>payOrder(v.id)}>Bayar Sekarang</button>}
+                            {(v.orderStatus === 'Pembayaran Terkonfirmasi') && <button className="rounded-md w-full bg-[#f1c232] py-2 px-2" onClick={()=>pickuped(v.id)}>Sudah di Pickup</button>}
+                            {(v.orderStatus === 'Menunggu Pickup') && <button className="rounded-md w-full bg-[#f1c232] py-2 px-2" onClick={()=>pickuped(v.id)}>Sudah di Pickup</button>}
+                            {v.orderStatus === 'Pesanan Selesai' && <button className="rounded-md w-full bg-[#f1c232] py-2 px-2">Selesaikan Pesanan</button>}
+                            {v.orderStatus === 'Selesai Pengerjaan (Konfirmasi Penerima)' && <button className="rounded-md w-full bg-[#f1c232] py-2 px-2" onClick={()=>delivered(v.id)}>Selesaikan Pesanan</button>}
+                          </div>
+                       </div>
+                     );
+                   })}
+                 </>
+                )}
+                {isSelected === 7 && (
+                   <>
+                   {list?.map((v, i) => {
+                     return (
+                       <div className="bg-white shadow-md mx-5 px-3 my-3 rounded-md">
+                         <div className="flex items-center justify-between py-3">
+                           <div className="flex flex-col">
+                             <p className="font-bold">{v.namapenjahit}</p>
+                             <p className="">{v.invoice}</p>
+                           </div>
+                           <p className="bg-[#f1c232] py-1 px-2 rounded-md">
+                             {v.orderStatus}
+                           </p>
+                         </div>
+                         <hr />
+                         <div className="flex justify-around py-3">
+                           <img
+                             src={
+                               "http://apijahitkeeun.tepat.co.id/photo-cart/" +
+                               v.photoTaylor1
+                             }
+                             onError={({ currentTarget }) => {
+                              currentTarget.onerror = null; // prevents looping
+                              currentTarget.src=DefaultPreview;
+                            }}
+                             alt=""
+                             className="rounded-md w-14 h-14"
+                           />
+                           <div className="flex flex-col">
+                             <p className="font-bold text-xl">{v.namaitem}</p>
+                             <p>{v.jasa}</p>
+                           </div>
+                           <div className="flex flex-col items-end">
+                             <p>x{v.quantity}</p>
+                             <NumericFormat
+                               value={parseInt(v.price)}
+                               prefix={"Rp."}
+                               thousandSeparator={","}
+                               displayType="text"
+                               className="text-right"
+                             />
+                           </div>
+                         </div>
+                         <hr />
+                         <div className="flex items-center px-3 py-3 justify-between">
+                           <p>{v.quantity} item</p>
+                           <div className="flex flex-col items-end">
+                             <p>Total Pembayaran:</p>
+                             <NumericFormat
+                               value={parseInt(v.price)}
+                               prefix={"Rp."}
+                               thousandSeparator={","}
+                               displayType="text"
+                               className="text-right font-bold"
+                             />
+                           </div>
+                         </div>
+                         <div className="flex pb-3">
+                            {(v.orderStatus === 'Menunggu Pembayaran') && <button className="rounded-md w-full bg-[#f1c232] py-2 px-2" onClick={()=>payOrder(v.id)}>Bayar Sekarang</button>}
+                            {(v.orderStatus === 'Pembayaran Terkonfirmasi') && <button className="rounded-md w-full bg-[#f1c232] py-2 px-2" onClick={()=>pickuped(v.id)}>Sudah di Pickup</button>}
+                            {(v.orderStatus === 'Menunggu Pickup') && <button className="rounded-md w-full bg-[#f1c232] py-2 px-2" onClick={()=>pickuped(v.id)}>Sudah di Pickup</button>}
+                            {v.orderStatus === 'Pesanan Selesai' && <button className="rounded-md w-full bg-[#f1c232] py-2 px-2">Selesaikan Pesanan</button>}
+                            {v.orderStatus === 'Selesai Pengerjaan (Konfirmasi Penerima)' && <button className="rounded-md w-full bg-[#f1c232] py-2 px-2" onClick={()=>{delivered(v.id); alert('clicked')}}>Selesaikan Pesanan</button>}
+                          </div>
+                       </div>
+                     );
+                   })}
+                 </>
+                )}
+                {isSelected === 8 && (
+                   <>
+                   {list?.map((v, i) => {
+                     return (
+                       <div className="bg-white shadow-md mx-5 px-3 my-3 rounded-md">
+                         <div className="flex items-center justify-between py-3">
+                           <div className="flex flex-col">
+                             <p className="font-bold">{v.namapenjahit}</p>
+                             <p className="">{v.invoice}</p>
+                           </div>
+                           <p className="bg-[#f1c232] py-1 px-2 rounded-md">
+                             {v.orderStatus}
+                           </p>
+                         </div>
+                         <hr />
+                         <div className="flex justify-around py-3">
+                           <img
+                             src={
+                               "http://apijahitkeeun.tepat.co.id/photo-cart/" +
+                               v.photoTaylor1
+                             }
+                             onError={({ currentTarget }) => {
+                              currentTarget.onerror = null; // prevents looping
+                              currentTarget.src=DefaultPreview;
+                            }}
+                             alt=""
+                             className="rounded-md w-14 h-14"
+                           />
+                           <div className="flex flex-col">
+                             <p className="font-bold text-xl">{v.namaitem}</p>
+                             <p>{v.jasa}</p>
+                           </div>
+                           <div className="flex flex-col items-end">
+                             <p>x{v.quantity}</p>
+                             <NumericFormat
+                               value={parseInt(v.price)}
+                               prefix={"Rp."}
+                               thousandSeparator={","}
+                               displayType="text"
+                               className="text-right"
+                             />
+                           </div>
+                         </div>
+                         <hr />
+                         <div className="flex items-center px-3 py-3 justify-between">
+                           <p>{v.quantity} item</p>
+                           <div className="flex flex-col items-end">
+                             <p>Total Pembayaran:</p>
+                             <NumericFormat
+                               value={parseInt(v.price)}
+                               prefix={"Rp."}
+                               thousandSeparator={","}
+                               displayType="text"
+                               className="text-right font-bold"
+                             />
+                           </div>
+                         </div>
+                         <div className="flex pb-3">
+                            {(v.orderStatus === 'Menunggu Pembayaran') && <button className="rounded-md w-full bg-[#f1c232] py-2 px-2" onClick={()=>payOrder(v.id)}>Bayar Sekarang</button>}
+                            {(v.orderStatus === 'Pembayaran Terkonfirmasi') && <button className="rounded-md w-full bg-[#f1c232] py-2 px-2" onClick={()=>pickuped(v.id)}>Sudah di Pickup</button>}
+                            {(v.orderStatus === 'Menunggu Pickup') && <button className="rounded-md w-full bg-[#f1c232] py-2 px-2" onClick={()=>pickuped(v.id)}>Sudah di Pickup</button>}
+                            {v.orderStatus === 'Pesanan Selesai' && <button className="rounded-md w-full bg-[#f1c232] py-2 px-2">Selesaikan Pesanan</button>}
+                            {v.orderStatus === 'Selesai Pengerjaan (Konfirmasi Penerima)' && <button className="rounded-md w-full bg-[#f1c232] py-2 px-2" onClick={()=>delivered(v.id)}>Selesaikan Pesanan</button>}
+                          </div>
                        </div>
                      );
                    })}
@@ -1064,6 +1155,7 @@ export function PesananTaylor(props) {
   const [isLoading, setLoading] = useState(true);
   const {toggle} = useSelector(state => state.toggle)
   const dispatch = useDispatch()
+  const [loaded,setLoaded] = useState(false)
 
   const [list, setList] = useState();
 
@@ -1109,7 +1201,9 @@ export function PesananTaylor(props) {
   useEffect(() => {
     let ignore = false;
     if (!ignore) {
-      getPesanan();
+        setInterval(() => {
+          getPesanan();
+        }, 1500)
     }
     return () => {
       ignore = true;
@@ -1147,6 +1241,10 @@ export function PesananTaylor(props) {
                           <img
                             src={'http://api.jahitkeeun.my.id/photo-cart/'+v.photoClient1}
                             alt=""
+                            onError={({ currentTarget }) => {
+                              currentTarget.onerror = null; // prevents looping
+                              currentTarget.src=DefaultPreview;
+                            }}
                             className="rounded-md w-20 h-20 object-cover"
                           />
                           <div className="flex flex-col">
@@ -1226,9 +1324,10 @@ const FormBukti = (props) =>{
 
   return(
     <AnimatePresence>
-    <div className="bg-white/80 absolute w-full h-full z-50 flex justify-center items-center">
-      <motion.div className="bg-white border border-black rounded-md py-5 px-2" initial={{opacity:0}} animate={{opacity:1}}>
-        <p className="text-center font-bold text-xl pb-3">Bukti Pengerjaan</p>
+    <div className="bg-white/80 absolute w-full md:w-[30.375rem] h-full flex justify-center items-center">
+      <motion.div className="bg-white relative border border-black rounded-md py-5 px-2" initial={{opacity:0}} animate={{opacity:1}}>
+        <MdClose onClick={()=>dispatch(TOGGLED(false))} className='text-3xl absolute right-2 top-2 cursor-pointer'/>
+        <p className="text-center font-bold text-xl pb-3 pt-5">Bukti Pengerjaan</p>
         <img src={foto.photoTaylor1 ? URL.createObjectURL(foto.photoTaylor1) : DefaultPreview} className='px-3 object-cover py-5 w-56 h-56 mx-auto' alt="" />
         <input type="file" className="block" onChange={(e)=>setFoto((foto)=>({...foto,photoTaylor1:e.target.files[0]}))} />
         {isLoading === false && <button onClick={sendProve} className="w-full mt-5 bg-[#F1C232] px-3 py-3 text-lg rounded-md">Kirim</button>}

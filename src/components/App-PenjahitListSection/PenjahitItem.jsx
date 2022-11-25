@@ -20,7 +20,7 @@ function PenjahitItem(props) {
   }, []);
   return (
     <div
-      className="flex justify-evenly w-80 mx-auto gap-5 bg-white py-3 px-1 shadow-md"
+      className="flex justify-evenly w-96 mx-auto gap-5 bg-white py-3 px-1 shadow-md"
       onClick={() => navigate(`detail/${props.id}`)}
     >
       <img
@@ -115,12 +115,6 @@ export function DetailTaylor() {
     };
   }, []);
 
-  // useEffect(() => {
-  //   getItems();
-  //   itemLoading.current = false;
-  // }, [detail]);
-
-  // baseStar.length = detail.rating ? detail.rating : 0
   return (
     <div className="h-screen bg-slate-200">
       <div className="w-screen md:w-[30.375rem] mx-auto pb-32 bg-[#FFF8EA] overflow-y-scroll h-screen">

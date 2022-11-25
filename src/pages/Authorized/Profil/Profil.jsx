@@ -8,7 +8,7 @@ import { GrFormNext, GrUpgrade } from "react-icons/gr";
 import { FaTrash, FaUser } from "react-icons/fa";
 import { BsPhone, BsKey } from "react-icons/bs";
 import { FiMail } from "react-icons/fi";
-import { IoIosArrowBack } from "react-icons/io";
+import { IoIosArrowBack, IoMdShirt } from "react-icons/io";
 import { toast, Slide, ToastContainer } from "react-toastify";
 import { StyledContainer } from "./style";
 import { useNavigate } from "react-router-dom";
@@ -24,6 +24,7 @@ function Profil() {
   const data = JSON.parse(sessionStorage.getItem("data"));
   const { toggle } = useSelector((state) => state.toggle);
   const dispatch = useDispatch();
+
   const logoutClicked = () => {
     toast("Anda sedang diarahkan keluar...", {
       position: "top-right",
@@ -51,7 +52,7 @@ function Profil() {
   return (
     <div className="h-screen bg-slate-200">
       <div className="w-screen md:w-[30.375rem] mx-auto pb-32 bg-[#FFF8EA] overflow-y-scroll relative h-screen">
-        {toggle && <ConfirmUpgrade />}
+        {toggle && <ConfirmUpgrade logout={logoutClicked}/>}
         <StyledContainer className="fixed top-0" transition={Slide} />
         <img
           src={BackgroundProfil}
@@ -90,6 +91,14 @@ function Profil() {
                 Upgade Akun Saya
               </button>
             </div>
+          )}
+          {data.role == 'taylor' && (
+            <div className="flex items-center font-bold justify-center gap-2 px-3 py-3 border-[#F1C232] border-2 mt-3 rounded-md">
+            <IoMdShirt className="text-xl" />
+            <button>
+              My Service
+            </button>
+          </div>
           )}
         </div>
         <div className="px-7 pt-5 flex flex-col gap-4">
@@ -154,7 +163,7 @@ function Profil() {
             </p>
           </div>
           <div
-            className="flex items-center gap-3 text-xl font-semibold cursor-pointer"
+            className="flex items-center gap-3 text-xl font-semibold cursor-pointer mb-22"
             onClick={logoutClicked}
           >
             <FiLogOut />
@@ -172,7 +181,35 @@ function Profil() {
 export default Profil;
 
 function ConfirmUpgrade() {
+  const data = JSON.parse(sessionStorage.getItem('data'))
+  const token = sessionStorage.getItem('token')
+  const navigate = useNavigate()
   const dispatch = useDispatch();
+
+  const upgrade = async() =>{
+    try {
+      const response = await axios.post(`http://api.jahitkeeun.my.id/api/user/update/role/${data.client.user_id}`,{role:2},{
+        headers:{
+          Authorization:`Bearer ${token}`
+        }
+      })
+      toast.info('Anda akan diarahkan keluar dan melakukan login ulang ya...', {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
+        setTimeout(() => {
+          logoutClicked()
+        }, 3000);
+    } catch (error) {
+      console.log(error);
+    }
+  }
   return (
     <div>
       <div
@@ -195,7 +232,7 @@ function ConfirmUpgrade() {
           </button>
           <button
             className="bg-[#f1c232] px-4 py-2 rounded-md"
-            onClick={() => alert("uhuy")}
+            onClick={upgrade}
           >
             Ya, Gaskan!
           </button>

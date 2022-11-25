@@ -82,7 +82,7 @@ function Navbar() {
     );
   } else if(isAuthSelected === '1' && inNavbarApp === 'true' ){
     return(
-      <NavWrap className="flex items-center px-5 lg:px-14" auth app>
+      <NavWrap className="flex items-center px-5 lg:px-14 z-50" auth app>
         <Link onClick={authHome}>
           <img className="-mb-3" src={logowhite} alt="logo-jahitkeeun" />
         </Link>

@@ -148,7 +148,7 @@ function Checkout() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="bg-white/75 z-50 absolute top-0 flex flex-col justify-center items-center w-full h-full"
+            className="bg-white/75 z-50 fixed top-0 flex flex-col justify-center md:w-[30.375rem] items-center w-full h-full"
           >
             <img src={LoadingCheckout} className="w-20" alt="" />
             <p>Pembayaran sedang Diproses...</p>
@@ -158,7 +158,7 @@ function Checkout() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="bg-white/75 z-50 absolute top-0 flex flex-col justify-center items-center w-full h-full"
+            className="bg-white/75 z-50 fixed top-0 flex flex-col justify-center md:w-[30.375rem] items-center w-full h-full"
           >
             <img src={DoneCheckout} className="w-20" alt="" />
             <p>Pembayaran Berhasil Dilakukan</p>
@@ -168,7 +168,7 @@ function Checkout() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="bg-white/80 z-50 absolute top-0 flex flex-col justify-center items-center w-full h-full"
+            className="bg-white/80 z-10 fixed top-0 flex flex-col justify-center items-center w-full md:w-[30.375rem] h-full"
           >
             <img src={FailCheckout} className="px-5" alt="" />
             <p className="">Pembayaran Gagal</p>
@@ -256,6 +256,7 @@ function Checkout() {
           <p className="font-bold">Ringkasan Belanja</p>
           <div className="flex justify-between">
             <p>Total Harga</p>
+            <div className="flex flex-col">
             {items?.map((v, i) => {
               return (
                 <NumericFormat
@@ -264,9 +265,10 @@ function Checkout() {
                   prefix={"Rp."}
                   thousandSeparator={","}
                   displayType="text"
-                />
-              );
-            })}
+                  />
+                  );
+                })}
+                </div>
           </div>
           <hr />
           <div className="flex font-bold justify-between">
@@ -279,7 +281,7 @@ function Checkout() {
               className="text-2xl"
             />
           </div>
-          <button className="bg-[#F1C232] py-3 rounded-md" onClick={checkout}>
+          <button className="bg-[#F1C232] py-3 rounded-md mb-20" onClick={checkout}>
             Bayar Sekarang
           </button>
         </div>
