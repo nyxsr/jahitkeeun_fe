@@ -17,7 +17,7 @@ function UserLocation() {
   const getAlamat = async () => {
     try {
       const response = await axios.get(
-        `http://api.jahitkeeun.my.id/api/sectionitemalamat/${iduser.client.user_id}`,
+        `https://api.jahitkeeun.my.id/api/sectionitemalamat/${iduser.client.user_id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -78,7 +78,7 @@ export function UserAddress() {
   const getListAlamat = async () => {
     try {
       const response = await axios.get(
-        `http://api.jahitkeeun.my.id/api/sectionitemalamat/${data.client.user_id}`,
+        `https://api.jahitkeeun.my.id/api/sectionitemalamat/${data.client.user_id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
